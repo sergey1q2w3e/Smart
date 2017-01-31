@@ -1,0 +1,8 @@
+c:\users\prygunov\documents\visual studio 2015\Projects\Receive\Receive\bin\Debug\Receive.exe.config
+c:\users\prygunov\documents\visual studio 2015\Projects\Receive\Receive\bin\Debug\Receive.exe
+c:\users\prygunov\documents\visual studio 2015\Projects\Receive\Receive\bin\Debug\Receive.pdb
+c:\users\prygunov\documents\visual studio 2015\Projects\Receive\Receive\bin\Debug\Microsoft.ServiceBus.dll
+c:\users\prygunov\documents\visual studio 2015\Projects\Receive\Receive\bin\Debug\Microsoft.ServiceBus.xml
+c:\users\prygunov\documents\visual studio 2015\Projects\Receive\Receive\obj\Debug\Receive.csprojResolveAssemblyReference.cache
+c:\users\prygunov\documents\visual studio 2015\Projects\Receive\Receive\obj\Debug\Receive.exe
+c:\users\prygunov\documents\visual studio 2015\Projects\Receive\Receive\obj\Debug\Receive.pdb
