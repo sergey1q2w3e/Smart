@@ -23,6 +23,7 @@ namespace MySmartHouse1Service.Models
         } 
 
         public DbSet<TodoItem> TodoItems { get; set; }
+        public DbSet<Parameters> Parametrs { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
