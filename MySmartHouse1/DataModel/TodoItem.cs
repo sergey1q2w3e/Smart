@@ -12,6 +12,9 @@ namespace MySmartHouse1
         [JsonProperty(PropertyName = "text")]
         public string Text { get; set; }
 
+        [JsonProperty(PropertyName = "Value")]
+        public int Value { get; set; }
+
         [JsonProperty(PropertyName = "complete")]
         public bool Complete { get; set; }
     }
