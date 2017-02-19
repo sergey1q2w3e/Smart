@@ -46,6 +46,7 @@ namespace MySmartHouse1Service
                 });
             }
             app.UseWebApi(config);
+            ConfigureSwagger(config);
         }
     }
 
@@ -53,6 +54,16 @@ namespace MySmartHouse1Service
     {
         protected override void Seed(MySmartHouse1Context context)
         {
+            //List<Parameters> parameters = new List<Parameters>
+            //{
+            //    new Parameters {Name = "First", Value = 1, Id= Guid.NewGuid().ToString() },
+            //    new Parameters {Name = "Second", Value = 2, Id= Guid.NewGuid().ToString() }
+            //};
+
+            //foreach(Parameters param in parameters)
+            //{
+            //    context.Set<Parameters>().Add(param);
+            //}
             List<TodoItem> todoItems = new List<TodoItem>
             {
                 new TodoItem { Id = Guid.NewGuid().ToString(), Text = "First item", Complete = false },

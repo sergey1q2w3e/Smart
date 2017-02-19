@@ -23,7 +23,6 @@ namespace MySmartHouse1Service.Models
         } 
 
         public DbSet<TodoItem> TodoItems { get; set; }
-        public DbSet<Parameters> Parametrs { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -31,6 +30,8 @@ namespace MySmartHouse1Service.Models
                 new AttributeToColumnAnnotationConvention<TableColumnAttribute, string>(
                     "ServiceTableColumn", (property, attributes) => attributes.Single().ColumnType.ToString()));
         }
+
+        public DbSet<Parameters> Parameters { get; set; }
     }
 
 }
