@@ -60,10 +60,11 @@ namespace MySmartHouse1Service
             //    new Parameters {Name = "Second", Value = 2, Id= Guid.NewGuid().ToString() }
             //};
 
-            //foreach(Parameters param in parameters)
+            //foreach (Parameters param in parameters)
             //{
             //    context.Set<Parameters>().Add(param);
             //}
+
             List<TodoItem> todoItems = new List<TodoItem>
             {
                 new TodoItem { Id = Guid.NewGuid().ToString(), Text = "First item", Complete = false },
