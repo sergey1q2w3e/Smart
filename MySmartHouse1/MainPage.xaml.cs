@@ -24,11 +24,11 @@ namespace MySmartHouse1
 {
     public sealed partial class MainPage : Page
     {
-        private MobileServiceCollection<TodoItem, TodoItem> items;
+        private MobileServiceCollection<Parameters, Parameters> items;
 #if OFFLINE_SYNC_ENABLED
         private IMobileServiceSyncTable<TodoItem> todoTable = App.MobileService.GetSyncTable<TodoItem>(); // offline sync
 #else
-        private IMobileServiceTable<TodoItem> todoTable = App.MobileService.GetTable<TodoItem>();
+        private IMobileServiceTable<Parameters> parameters = App.MobileService.GetTable<Parameters>();
 #endif
 
         public MainPage()
@@ -44,11 +44,11 @@ namespace MySmartHouse1
             ButtonRefresh_Click(this, null);
         }
 
-        private async Task InsertTodoItem(TodoItem todoItem)
+        private async Task InsertTodoItem(Parameters todoItem)
         {
             // This code inserts a new TodoItem into the database. After the operation completes
             // and the mobile app backend has assigned an id, the item is added to the CollectionView.
-            await todoTable.InsertAsync(todoItem);
+            await parameters.InsertAsync(todoItem);
             items.Add(todoItem);
 
 #if OFFLINE_SYNC_ENABLED
@@ -63,8 +63,7 @@ namespace MySmartHouse1
             {
                 // This code refreshes the entries in the list view by querying the TodoItems table.
                 // The query excludes completed TodoItems.
-                items = await todoTable
-                    .Where(todoItem => todoItem.Complete == false)
+                items = await parameters
                     .ToCollectionAsync();
             }
             catch (MobileServiceInvalidOperationException e)
@@ -83,11 +82,11 @@ namespace MySmartHouse1
             }
         }
 
-        private async Task UpdateCheckedTodoItem(TodoItem item)
+        private async Task UpdateCheckedTodoItem(Parameters item)
         {
             // This code takes a freshly completed TodoItem and updates the database.
 			// After the MobileService client responds, the item is removed from the list.
-            await todoTable.UpdateAsync(item);
+            await parameters.UpdateAsync(item);
             items.Remove(item);
             ListItems.Focus(Windows.UI.Xaml.FocusState.Unfocused);
 
@@ -110,17 +109,12 @@ namespace MySmartHouse1
 
         private async void ButtonSave_Click(object sender, RoutedEventArgs e)
         {
-            var todoItem = new TodoItem { Text = TextInput.Text };
-            TextInput.Text = "";
+            var todoItem = new Parameters { Name = NameInput.Text , Value=Int32.Parse(ValueInput.Text)};
+            ValueInput.Text = "";
+            NameInput.Text = "";
             await InsertTodoItem(todoItem);
         }
 
-        private async void CheckBoxComplete_Checked(object sender, RoutedEventArgs e)
-        {
-            CheckBox cb = (CheckBox)sender;
-            TodoItem item = cb.DataContext as TodoItem;
-            await UpdateCheckedTodoItem(item);
-        }
 
         private void TextInput_KeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
         {

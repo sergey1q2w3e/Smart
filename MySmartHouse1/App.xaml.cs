@@ -19,8 +19,13 @@ namespace MySmartHouse1
         // This MobileServiceClient has been configured to communicate with the Azure Mobile Service and
         // Azure Gateway using the application key. You're all set to start working with your Mobile Service!
         public static MobileServiceClient MobileService = new MobileServiceClient(
-            "https://mysmarthouse1.azurewebsites.net"
+            "http://mysmarthouse1.azurewebsites.net/"
         );
+
+        //public static MobileServiceClient MobileService = new MobileServiceClient(
+        //    "http://localhost:54442/"
+        //);
+
 
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
@@ -39,7 +44,8 @@ namespace MySmartHouse1
                 .CreatePushNotificationChannelForApplicationAsync();
 
             // Register the channel URI with Notification Hubs.
-            await App.MobileService.GetPush().RegisterAsync(channel.Uri);
+            var a = App.MobileService.GetPush();
+            await a.RegisterAsync(channel.Uri);
         }
 
         /// <summary>
@@ -49,7 +55,7 @@ namespace MySmartHouse1
         /// <param name="e">Details about the launch request and process.</param>
         protected async override void OnLaunched(LaunchActivatedEventArgs e)
         {
-            await InitNotificationsAsync();
+            //await InitNotificationsAsync();
 #if DEBUG
             if (System.Diagnostics.Debugger.IsAttached)
             {

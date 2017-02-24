@@ -90,7 +90,9 @@
                                       Description="Enter some text below and click Save to insert a new todo item into your database" />
 
                     <StackPanel x:Name="addItemPanel" Orientation="Horizontal">
-                        <TextBox Grid.Row="1" MinWidth="300" Margin="5,5,5,5" Name="TextInput" KeyDown="TextInput_KeyDown" Height="44"></TextBox>
+                        <TextBox Grid.Row="1" MinWidth="140" Margin="5,5,5,5" Name="ValueInput" KeyDown="TextInput_KeyDown" Height="44" Width="137"></TextBox>
+
+                        <TextBox Grid.Row="1" MinWidth="140" Margin="5,5,5,5" Name="NameInput" KeyDown="TextInput_KeyDown" Height="44" Width="137"></TextBox>
                         <Button Name="ButtonSave" Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" Margin="0,8,8,8" Click="ButtonSave_Click">
                             <StackPanel Orientation="Horizontal">
                                 <SymbolIcon Symbol="Add"/>
@@ -119,6 +121,7 @@
                             <TextBlock Margin="5">Refresh</TextBlock>
                         </StackPanel>
                     </Button>
+                    
                 </RelativePanel>
 
                 <ScrollViewer Grid.Row="1" Margin="0,10,0,0" 
@@ -127,13 +130,10 @@
                     <ListView x:Name="ListItems">
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <CheckBox x:Name="CheckBoxComplete" 
-                                          IsChecked="{Binding Complete, Mode=TwoWay}" 
-                                          Checked="CheckBoxComplete_Checked" 
-                                          MaxWidth="550"
-                                          VerticalAlignment="Center">
-                                    <TextBlock Name="ItemText" Text="{Binding Text}" MaxWidth="550" HorizontalAlignment="Left" TextWrapping="WrapWholeWords"/>
-                                </CheckBox>
+                                <StackPanel>
+                                    <TextBlock  Text="{Binding Name}" MaxWidth="550" HorizontalAlignment="Left" TextWrapping="WrapWholeWords"/>
+                                    <TextBlock  Text="{Binding Value}" MaxWidth="550" TextWrapping="WrapWholeWords"/>
+                                </StackPanel>
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>

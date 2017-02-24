@@ -1,6 +1,6 @@
 ﻿using Microsoft.Azure.Mobile.Server;
 
-namespace MySmartHouse1Service.DataObjects
+namespace HouseService.DataObjects
 {
     public class TodoItem : EntityData
     {

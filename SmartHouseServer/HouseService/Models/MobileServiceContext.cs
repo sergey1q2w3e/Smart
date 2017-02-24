@@ -1,13 +1,13 @@
-﻿using System.Data.Entity;
+using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
 using Microsoft.Azure.Mobile.Server;
 using Microsoft.Azure.Mobile.Server.Tables;
-using MySmartHouse1Service.DataObjects;
+using HouseService.DataObjects;
 
-namespace MySmartHouse1Service.Models
+namespace HouseService.Models
 {
-    public class MySmartHouse1Context : DbContext
+    public class MobileServiceContext : DbContext
     {
         // You can add custom code to this file. Changes will not be overwritten.
         // 
@@ -15,15 +15,19 @@ namespace MySmartHouse1Service.Models
         // automatically whenever you change your model schema, please use data migrations.
         // For more information refer to the documentation:
         // http://msdn.microsoft.com/en-us/data/jj591621.aspx
+        //
+        // To enable Entity Framework migrations in the cloud, please ensure that the 
+        // service name, set by the 'MS_MobileServiceName' AppSettings in the local 
+        // Web.config, is the same as the service name when hosted in Azure.
 
         private const string connectionStringName = "Name=MS_TableConnectionString";
 
-        public MySmartHouse1Context() : base(connectionStringName)
+        public MobileServiceContext() : base(connectionStringName)
         {
-        } 
+        }
 
-        public DbSet<TodoItem> TodoItems { get; set; }
-        //public DbSet<Parameters> Parameters { get; set; }
+       // public DbSet<TodoItem> TodoItems { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Add(
@@ -31,7 +35,6 @@ namespace MySmartHouse1Service.Models
                     "ServiceTableColumn", (property, attributes) => attributes.Single().ColumnType.ToString()));
         }
 
-
+        public System.Data.Entity.DbSet<HouseService.DataObjects.Parameters> Parameters { get; set; }
     }
-
 }
