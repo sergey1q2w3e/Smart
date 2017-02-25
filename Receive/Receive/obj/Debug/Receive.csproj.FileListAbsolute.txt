@@ -9,3 +9,8 @@ c:\users\prygunov\documents\visual studio 2015\Projects\Receive\Receive\obj\Debu
 E:\Проекты\sh\repository\Receive\Receive\bin\Debug\Receive.exe.config
 E:\Проекты\sh\repository\Receive\Receive\obj\Debug\Receive.exe
 E:\Проекты\sh\repository\Receive\Receive\obj\Debug\Receive.pdb
+E:\Проекты\sh\repository\Receive\Receive\bin\Debug\Receive.exe
+E:\Проекты\sh\repository\Receive\Receive\bin\Debug\Receive.pdb
+E:\Проекты\sh\repository\Receive\Receive\bin\Debug\Microsoft.ServiceBus.dll
+E:\Проекты\sh\repository\Receive\Receive\bin\Debug\Microsoft.ServiceBus.xml
+E:\Проекты\sh\repository\Receive\Receive\obj\Debug\Receive.csprojResolveAssemblyReference.cache

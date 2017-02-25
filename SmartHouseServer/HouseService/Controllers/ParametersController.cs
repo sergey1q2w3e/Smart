@@ -7,6 +7,9 @@ using Microsoft.Azure.Mobile.Server;
 using HouseService.DataObjects;
 using HouseService.Models;
 
+using System.Collections.Generic;
+using Microsoft.Azure.NotificationHubs;
+using Microsoft.Azure.Mobile.Server.Config;
 namespace HouseService.Controllers
 {
     public class ParametersController : TableController<Parameters>
@@ -40,6 +43,38 @@ namespace HouseService.Controllers
         public async Task<IHttpActionResult> PostParameters(Parameters item)
         {
             Parameters current = await InsertAsync(item);
+            // Get the settings for the server project.
+            HttpConfiguration config = this.Configuration;
+            MobileAppSettingsDictionary settings =
+                this.Configuration.GetMobileAppSettingsProvider().GetMobileAppSettings();
+
+            // Get the Notification Hubs credentials for the Mobile App.
+            string notificationHubName = settings.NotificationHubName;
+            string notificationHubConnection = settings
+                .Connections[MobileAppSettingsKeys.NotificationHubConnectionString].ConnectionString;
+
+            // Create the notification hub client.
+            NotificationHubClient hub = NotificationHubClient
+                .CreateClientFromConnectionString(notificationHubConnection, notificationHubName);
+
+            // Define a WNS payload
+            var windowsToastPayload = @"<toast><visual><binding template=""ToastText01""><text id=""1"">"
+                                    + item.Name + @"</text></binding></visual></toast>";
+            try
+            {
+                // Send the push notification.
+                var result = await hub.SendWindowsNativeNotificationAsync(windowsToastPayload);
+
+                // Write the success result to the logs.
+                config.Services.GetTraceWriter().Info(result.State.ToString());
+            }
+            catch (System.Exception ex)
+            {
+                // Write the failure result to the logs.
+                config.Services.GetTraceWriter()
+                    .Error(ex.Message, null, "Push.SendAsync Error");
+            }
+
             return CreatedAtRoute("Tables", new { id = current.Id }, current);
         }
 

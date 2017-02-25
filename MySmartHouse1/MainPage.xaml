@@ -89,7 +89,7 @@
                     <local:QuickStartTask x:Name="quickStartTask" Number="1" Title="Insert a TodoItem" 
                                       Description="Enter some text below and click Save to insert a new todo item into your database" />
 
-                    <StackPanel x:Name="addItemPanel" Orientation="Horizontal">
+                    <StackPanel x:Name="addItemPanel" Orientation="Vertical">
                         <TextBox Grid.Row="1" MinWidth="140" Margin="5,5,5,5" Name="ValueInput" KeyDown="TextInput_KeyDown" Height="44" Width="137"></TextBox>
 
                         <TextBox Grid.Row="1" MinWidth="140" Margin="5,5,5,5" Name="NameInput" KeyDown="TextInput_KeyDown" Height="44" Width="137"></TextBox>
