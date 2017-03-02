@@ -97,7 +97,7 @@ namespace MySmartHouse1
 
         private async void ButtonRefresh_Click(object sender, RoutedEventArgs e)
         {
-            ButtonRefresh.IsEnabled = false;
+            //ButtonRefresh.IsEnabled = false;
 
 #if OFFLINE_SYNC_ENABLED
             await SyncAsync(); // offline sync
