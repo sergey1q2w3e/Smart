@@ -20,8 +20,8 @@ namespace HouseService
 {
     public partial class Startup
     {
-        static string connectionString = "HostName=myiothubesp8266.azure-devices.net;DeviceId=esp8266;SharedAccessKey=Rz3YKzn22hIMMUu7wL9cBrO02pGbNscLIxFWECUe/Hs=";
-        static string iotHubD2cEndpoint = "messages/events";
+        //static string connectionString = "HostName=myiothubesp8266.azure-devices.net;DeviceId=esp8266;SharedAccessKey=Rz3YKzn22hIMMUu7wL9cBrO02pGbNscLIxFWECUe/Hs=";
+        //static string iotHubD2cEndpoint = "messages/events";
         static string deviceID = "esp8266";
         //static EventHubClient eventHubClient;
 

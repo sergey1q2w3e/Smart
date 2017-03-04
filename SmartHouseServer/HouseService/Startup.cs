@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
+using System.Diagnostics;
+using Microsoft.Azure.Devices.Client;
 
 [assembly: OwinStartup(typeof(HouseService.Startup))]
 
@@ -17,69 +19,36 @@ namespace HouseService
         public void Configuration(IAppBuilder app)
         {
             ConfigureMobileApp(app);
-            //Thread receiveThread = new Thread(CreateReceiver);
-            //receiveThread.Start();
-        
+            Start();
         }
-        static EventHubClient eventHubClient = null;
-        static EventHubReceiver eventHubReceiver = null;
+        string connectionString = "HostName=myiothubesp8266.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=3+lHjdnCdqguuSF+ghkLWYCY+5gu2aziirph/tYoHPY=";
+        string iotHubD2cEndpoint = "messages/events";
 
-        private void SetHubs()
+        private void Start()
         {
-            eventHubClient = EventHubClient.CreateFromConnectionString(connectionString, iotHubD2cEndpoint);
+            var eventHubClient = EventHubClient.CreateFromConnectionString(connectionString, iotHubD2cEndpoint);
 
-            int eventHubPartitionsCount = eventHubClient.GetRuntimeInformation().PartitionCount;
-            string partition = EventHubPartitionKeyResolver.ResolveToPartition(device, eventHubPartitionsCount);
-            eventHubReceiver = eventHubClient.GetConsumerGroup("$Default").CreateReceiver(partition, DateTime.UtcNow);
-        }
+            var d2cPartitions = eventHubClient.GetRuntimeInformation().PartitionIds;
 
-        private async void GetData()
-        {
-            var events = await eventHubReceiver.ReceiveAsync(int.MaxValue);
-
-            var eventData = await eventHubReceiver.ReceiveAsync(TimeSpan.FromSeconds(1));
-
-            if (eventData != null)
+            foreach (string partition in d2cPartitions)
             {
+                var receiver = eventHubClient.GetDefaultConsumerGroup().
+                    CreateReceiver(partition, DateTime.Now);
+                ReceiveMessagesFromDeviceAsync(receiver);
+            }
+            
+        }
 
-                var data = Encoding.UTF8.GetString(eventData.GetBytes());
+        async static Task ReceiveMessagesFromDeviceAsync(EventHubReceiver receiver)
+        {
+            while (true)
+            {
+                EventData eventData = await receiver.ReceiveAsync();
+                if (eventData == null) continue;
 
-                if (eventData.Properties.Count > 0)
-                {
-                    var value = eventData.Properties[""].ToString();
-                }
+                string data = Encoding.UTF8.GetString(eventData.GetBytes());
+                Debug.WriteLine("Message received: '{0}'", data);
             }
         }
-        //private static void CreateReceiver()
-        //{
-        //    eventHubClient = EventHubClient.CreateFromConnectionString(connectionString, iotHubD2cEndpoint);
-
-        //    var d2cPartitions = eventHubClient.GetRuntimeInformation().PartitionIds;
-
-        //    //CancellationTokenSource cts = new CancellationTokenSource();
-        //    var tasks = new List<Task>();
-        //    foreach (string partition in d2cPartitions)
-        //    {
-        //        tasks.Add(ReceiveMessagesFromDeviceAsync(partition));
-        //    }
-        //    //Task.WaitAll(tasks.ToArray());
-        //    //await ReceiveMessagesFromDeviceAsync("0");
-        //}
-        //private static async Task ReceiveMessagesFromDeviceAsync(string partition)
-        //{
-        //    var eventHubReceiver = eventHubClient.GetDefaultConsumerGroup().CreateReceiver(partition, DateTime.UtcNow);
-        //    while (true)
-        //    {
-        //        EventData eventData = await eventHubReceiver.ReceiveAsync();
-        //        if (eventData == null) continue;
-
-        //        string data = Encoding.UTF8.GetString(eventData.GetBytes());
-        //        Parameters p = new Parameters { Name = data, Value = 111 };
-        //        //Console.WriteLine("Message received. Partition: {0} Data: '{1}'", partition, data);
-        //        //var res = await controller.PostParameters(p);
-        //        controller.SimplePostParameters(p);
-        //        Thread.Sleep(0);
-        //    }
-        //}
     }
 }
