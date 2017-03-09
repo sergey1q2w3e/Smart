@@ -23,7 +23,7 @@ namespace MySmartHouse1
         //);
 
         public static MobileServiceClient MobileService = new MobileServiceClient(
-            "http://localhost:58497/"
+            "http://localhost:65419/"
         );
 
 

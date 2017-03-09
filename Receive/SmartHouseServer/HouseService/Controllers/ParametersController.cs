@@ -40,9 +40,9 @@ namespace HouseService.Controllers
              return UpdateAsync(id, patch);
         }
 
-        public async void SimplePostParameters(Parameters item)
+        public async void InsertParameters(Parameters item)
         {
-            Parameters current = await InsertAsync(item);
+            
         }
         // POST tables/Parameters
         public async Task<IHttpActionResult> PostParameters(Parameters item)

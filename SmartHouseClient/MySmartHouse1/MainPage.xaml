@@ -99,6 +99,7 @@
                                 <TextBlock Margin="5">Save</TextBlock>
                             </StackPanel>
                         </Button>
+                        <Button Name="TestButton" Margin="0,8,8,8" Click="TestButton_Click">Test</Button>
                     </StackPanel>
                 </StackPanel>
 

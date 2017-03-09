@@ -1,29 +1,25 @@
-﻿using HouseService.DataObjects;
-using Microsoft.Owin;
+﻿using Microsoft.Owin;
 using Microsoft.ServiceBus.Messaging;
 using Owin;
+using SmartHouseService.DataObjects;
 using System;
-using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
-using System.Threading;
-using System.Diagnostics;
-using Microsoft.Azure.Devices.Client;
 
-[assembly: OwinStartup(typeof(HouseService.Startup))]
+[assembly: OwinStartup(typeof(SmartHouseService.Startup))]
 
-namespace HouseService
+namespace SmartHouseService
 {
     public partial class Startup
     {
+        string connectionString = "HostName=myiothubesp8266.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=3+lHjdnCdqguuSF+ghkLWYCY+5gu2aziirph/tYoHPY=";
+        string iotHubD2cEndpoint = "messages/events";
         public void Configuration(IAppBuilder app)
         {
             ConfigureMobileApp(app);
             Start();
         }
-        string connectionString = "HostName=myiothubesp8266.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=3+lHjdnCdqguuSF+ghkLWYCY+5gu2aziirph/tYoHPY=";
-        string iotHubD2cEndpoint = "messages/events";
-
         private void Start()
         {
             var eventHubClient = EventHubClient.CreateFromConnectionString(connectionString, iotHubD2cEndpoint);
@@ -36,9 +32,8 @@ namespace HouseService
                     CreateReceiver(partition, DateTime.Now);
                 ReceiveMessagesFromDeviceAsync(receiver);
             }
-            
-        }
 
+        }
         async static Task ReceiveMessagesFromDeviceAsync(EventHubReceiver receiver)
         {
             while (true)
@@ -47,7 +42,12 @@ namespace HouseService
                 if (eventData == null) continue;
 
                 string data = Encoding.UTF8.GetString(eventData.GetBytes());
-                Debug.WriteLine("Message received: '{0}'", data);
+                Debug.WriteLine(String.Format("Message received: {0}", data));
+                int h = int.Parse(data.Substring(0, 2));
+                Parameters p = new Parameters() { Name = "Humidity", Id = Guid.NewGuid().ToString(), Value = h };
+                
+                //contextService.Set<Parameters>().Add(p);
+                //contextService.SaveChanges();
             }
         }
     }

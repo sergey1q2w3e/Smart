@@ -50,7 +50,7 @@ namespace MySmartHouse1
             // and the mobile app backend has assigned an id, the item is added to the CollectionView.
             await parameters.InsertAsync(todoItem);
             items.Add(todoItem);
-
+            
 #if OFFLINE_SYNC_ENABLED
             await App.MobileService.SyncContext.PushAsync(); // offline sync
 #endif
@@ -109,7 +109,7 @@ namespace MySmartHouse1
 
         private async void ButtonSave_Click(object sender, RoutedEventArgs e)
         {
-            var todoItem = new Parameters { Name = NameInput.Text , Value=Int32.Parse(ValueInput.Text)};
+            var todoItem = new Parameters { Name = NameInput.Text, Value = Int32.Parse(ValueInput.Text)};
             ValueInput.Text = "";
             NameInput.Text = "";
             await InsertTodoItem(todoItem);
@@ -144,5 +144,15 @@ namespace MySmartHouse1
         }
 #endif
         #endregion
+
+        private async void TestButton_Click(object sender, RoutedEventArgs e)
+        {
+            var forUpdate = await parameters.Where(i => i.Name == "Humidity").ToListAsync();
+            foreach(var item in forUpdate)
+            {
+                item.Value = 9113;
+                await parameters.UpdateAsync(item);
+            }
+        }
     }
 }

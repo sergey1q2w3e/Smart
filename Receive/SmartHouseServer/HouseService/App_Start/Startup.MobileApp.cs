@@ -11,20 +11,10 @@ using HouseService.Controllers;
 using HouseService.Models;
 using Owin;
 
-using Microsoft.ServiceBus.Messaging;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Text;
-
 namespace HouseService
 {
     public partial class Startup
     {
-        //static string connectionString = "HostName=myiothubesp8266.azure-devices.net;DeviceId=esp8266;SharedAccessKey=Rz3YKzn22hIMMUu7wL9cBrO02pGbNscLIxFWECUe/Hs=";
-        //static string iotHubD2cEndpoint = "messages/events";
-        static string deviceID = "esp8266";
-        //static EventHubClient eventHubClient;
-
         public static void ConfigureMobileApp(IAppBuilder app)
         {
             HttpConfiguration config = new HttpConfiguration();
@@ -52,36 +42,9 @@ namespace HouseService
             }
 
             app.UseWebApi(config);
-
-            //eventHubClient = EventHubClient.CreateFromConnectionString(connectionString, iotHubD2cEndpoint);
-
-            //var d2cPartitions = eventHubClient.GetRuntimeInformation().PartitionIds;
-
-            ////CancellationTokenSource cts = new CancellationTokenSource();
-            //var tasks = new List<Task>();
-            //foreach (string partition in d2cPartitions)
-            //{
-            //    tasks.Add(ReceiveMessagesFromDeviceAsync(partition));
-            //}
-            //Task.WaitAll(tasks.ToArray());
+            controller = new ParametersController();
         }
         private static ParametersController controller;
-        
-
-        //private static async Task ReceiveMessagesFromDeviceAsync(string partition)
-        //{
-        //    var eventHubReceiver = eventHubClient.GetDefaultConsumerGroup().CreateReceiver(partition, DateTime.UtcNow);
-        //    while (true)
-        //    {
-        //        EventData eventData = await eventHubReceiver.ReceiveAsync();
-        //        if (eventData == null) continue;
-
-        //        string data = Encoding.UTF8.GetString(eventData.GetBytes());
-        //        Parameters p = new Parameters { Name = data, Value = 111 };
-        //        //Console.WriteLine("Message received. Partition: {0} Data: '{1}'", partition, data);
-        //        await controller.PostParameters(p);
-        //    }
-        //}
     }
 
     public class MobileServiceInitializer : CreateDatabaseIfNotExists<MobileServiceContext>

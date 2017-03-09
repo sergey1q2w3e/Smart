@@ -85,10 +85,6 @@
       <HintPath>..\packages\Microsoft.Azure.Amqp.1.1.5\lib\net451\Microsoft.Azure.Amqp.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Azure.Devices.Client, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Azure.Devices.Client.1.0.16\lib\net45\Microsoft.Azure.Devices.Client.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Microsoft.Azure.Mobile.Server, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Azure.Mobile.Server.1.1.157.1\lib\net45\Microsoft.Azure.Mobile.Server.dll</HintPath>
       <Private>True</Private>
@@ -247,7 +243,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\Startup.MobileApp.cs" />
-    <Compile Include="AzureIoTHub.cs" />
     <Compile Include="Controllers\ParametersController.cs" />
     <Compile Include="Controllers\TodoItemController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
@@ -258,6 +253,10 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\aspnet-HouseService-20170224054448.mdf" />
+    <Content Include="App_Data\aspnet-HouseService-20170224054448_log.ldf">
+      <DependentUpon>aspnet-HouseService-20170224054448.mdf</DependentUpon>
+    </Content>
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -268,15 +267,12 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\PublishProfiles\MySmartHouse1 - Web Deploy.pubxml" />
-    <Content Include="Service References\myiothubesp8266\ConnectedService.json" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
