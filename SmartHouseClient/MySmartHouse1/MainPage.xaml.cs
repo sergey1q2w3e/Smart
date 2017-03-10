@@ -44,9 +44,9 @@ namespace MySmartHouse1
             ButtonRefresh_Click(this, null);
         }
 
-        private async Task InsertTodoItem(Parameters todoItem)
+        private async Task InsertParameters(Parameters todoItem)
         {
-            // This code inserts a new TodoItem into the database. After the operation completes
+            // This code inserts a new Parameters into the database. After the operation completes
             // and the mobile app backend has assigned an id, the item is added to the CollectionView.
             await parameters.InsertAsync(todoItem);
             items.Add(todoItem);
@@ -112,7 +112,7 @@ namespace MySmartHouse1
             var todoItem = new Parameters { Name = NameInput.Text, Value = Int32.Parse(ValueInput.Text)};
             ValueInput.Text = "";
             NameInput.Text = "";
-            await InsertTodoItem(todoItem);
+            await InsertParameters(todoItem);
         }
 
 
@@ -152,6 +152,30 @@ namespace MySmartHouse1
             {
                 item.Value = 9113;
                 await parameters.UpdateAsync(item);
+            }
+        }
+
+        private async void ComboFan_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var combo = sender as ComboBox;
+            if (combo == null) return;
+            var forUpdate = await parameters.Where(i => i.Name == combo.Name ).ToListAsync();
+            if (forUpdate.Count == 0)
+            {
+                Parameters fanModeRow = new Parameters
+                {
+                    Name = combo.Name,
+                    Value = combo.SelectedIndex
+                };
+                await InsertParameters(fanModeRow);
+            }
+            else
+            {
+                foreach (var item in forUpdate)
+                {
+                    item.Value = combo.SelectedIndex;
+                    await parameters.UpdateAsync(item);
+                }
             }
         }
     }
