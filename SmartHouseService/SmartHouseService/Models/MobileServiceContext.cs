@@ -33,6 +33,7 @@ namespace SmartHouseService.Models
             modelBuilder.Conventions.Add(
                 new AttributeToColumnAnnotationConvention<TableColumnAttribute, string>(
                     "ServiceTableColumn", (property, attributes) => attributes.Single().ColumnType.ToString()));
+            Database.SetInitializer<MobileServiceContext>(null);
         }
 
         public System.Data.Entity.DbSet<SmartHouseService.DataObjects.Parameters> Parameters { get; set; }

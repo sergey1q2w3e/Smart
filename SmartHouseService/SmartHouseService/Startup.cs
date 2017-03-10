@@ -3,9 +3,14 @@ using Microsoft.ServiceBus.Messaging;
 using Owin;
 using SmartHouseService.DataObjects;
 using System;
+using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Diagnostics;
+using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using SmartHouseService.Models;
 
 [assembly: OwinStartup(typeof(SmartHouseService.Startup))]
 
@@ -18,7 +23,10 @@ namespace SmartHouseService
         public void Configuration(IAppBuilder app)
         {
             ConfigureMobileApp(app);
-            Start();
+            //Start();
+            Thread t = new Thread(WithoutHud);
+            
+            t.Start();
         }
         private void Start()
         {
@@ -38,16 +46,53 @@ namespace SmartHouseService
         {
             while (true)
             {
-                EventData eventData = await receiver.ReceiveAsync();
-                if (eventData == null) continue;
+                //EventData eventData = await receiver.ReceiveAsync();
+                //if (eventData == null) continue;
 
-                string data = Encoding.UTF8.GetString(eventData.GetBytes());
-                Debug.WriteLine(String.Format("Message received: {0}", data));
-                int h = int.Parse(data.Substring(0, 2));
-                Parameters p = new Parameters() { Name = "Humidity", Id = Guid.NewGuid().ToString(), Value = h };
+                //string data = Encoding.UTF8.GetString(eventData.GetBytes());
+                //Debug.WriteLine(String.Format("Message received: {0}", data));
+                //int h = int.Parse(data.Substring(0, 2));
+                //Parameters p = new Parameters() { Name = "Humidity", Id = Guid.NewGuid().ToString(), Value = h };
                 
-                //contextService.Set<Parameters>().Add(p);
-                //contextService.SaveChanges();
+            }
+        }
+
+        private static int h = 20;
+        private void WithoutHud()
+        {
+            while (true)
+            {
+                Debug.WriteLine(h);
+                using (var contextService = new MobileServiceContext())
+                {
+                    Parameters paramChange =
+                        contextService.Parameters.Where(p => p.Name == "Humidity").FirstOrDefault<Parameters>();
+                    if (paramChange != null)
+                    {
+                        paramChange.Value = h++;
+                        contextService.Entry(paramChange).State = EntityState.Modified;
+
+                    }
+                    else
+                    {
+                        contextService.Parameters.Add(new Parameters()
+                        {
+                            Name = "Humidity",
+                            Id = Guid.NewGuid().ToString(),
+                            Value = h
+                        });
+                    }
+
+                    try
+                    {
+                        contextService.SaveChanges();
+                    }
+                    catch (DbUpdateConcurrencyException e)
+                    {
+                        Debug.WriteLine(String.Format(e.Message + "\n" + e.Entries.Single().ToString()));
+                    }
+                }
+                Thread.Sleep(8000);
             }
         }
     }

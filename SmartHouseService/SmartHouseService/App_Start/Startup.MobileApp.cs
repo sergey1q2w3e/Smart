@@ -42,13 +42,7 @@ namespace SmartHouseService
             }
 
             app.UseWebApi(config);
-
-            contextService = new MobileServiceContext();
-            //controller = new ParametersController();
-            //controller.In
         }
-        private static MobileServiceContext contextService;
-        //private static ParametersController controller;
     }
 
     public class MobileServiceInitializer : CreateDatabaseIfNotExists<MobileServiceContext>
