@@ -51,8 +51,11 @@ namespace SmartHouseService
         {
             List<Parameters> todoItems = new List<Parameters>
             {
-                new Parameters { Id = Guid.NewGuid().ToString(), Name = "First item", Value=1 },
-                new Parameters { Id = Guid.NewGuid().ToString(), Name = "Second item", Value=2 }
+                new Parameters { Id = Guid.NewGuid().ToString(), Name = "Humidity", Value=25 },
+                new Parameters { Id = Guid.NewGuid().ToString(), Name = "Temperature", Value=20 },
+                new Parameters { Id = Guid.NewGuid().ToString(), Name = "FanMode", Value=0 },
+                new Parameters { Id = Guid.NewGuid().ToString(), Name = "FanPower", Value=0 },
+                new Parameters { Id = Guid.NewGuid().ToString(), Name = "DoorOpen", Value=0 }
             };
 
             foreach (Parameters todoItem in todoItems)
