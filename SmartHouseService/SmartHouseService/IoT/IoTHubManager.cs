@@ -23,6 +23,8 @@ namespace SmartHouseService.IoT
         private static string connectionString = "HostName=myiothubesp8266.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=3+lHjdnCdqguuSF+ghkLWYCY+5gu2aziirph/tYoHPY=";
         private static string iotHubD2cEndpoint = "messages/events";
         private static string deviceID = "esp8266";
+        private static string notifHubConnectionStr = "Endpoint=sb://myhubnamespace.servicebus.windows.net/;SharedAccessKeyName=DefaultFullSharedAccessSignature;SharedAccessKey=voDbGB7f0c99MG1t+wvRZEMruKapTmrywNB7r05mMss=";
+        private static string notificationHubName = "myhub";
         static ServiceClient serviceClient;
 
         public static HttpConfiguration CotrollerConfiguration;
@@ -40,7 +42,6 @@ namespace SmartHouseService.IoT
                     CreateReceiver(partition, DateTime.Now);
                 ReceiveMessagesFromDeviceAsync(receiver);
             }
-
         }
 
         private async static Task ReceiveMessagesFromDeviceAsync(EventHubReceiver receiver)
@@ -53,9 +54,6 @@ namespace SmartHouseService.IoT
                 string data = Encoding.UTF8.GetString(eventData.GetBytes());
                 Debug.WriteLine(String.Format("Message received: {0}", data));
                 ParseAndSave(data);
-                //int h = int.Parse(data.Substring(0, 2));
-                //Parameters p = new Parameters() { Name = "Humidity", Id = Guid.NewGuid().ToString(), Value = h };
-                
             }
         }
 
@@ -145,36 +143,20 @@ namespace SmartHouseService.IoT
 
         private static async void Alarm()
         {
-            // Get the settings for the server project.
-            HttpConfiguration config = CotrollerConfiguration;
-            MobileAppSettingsDictionary settings =
-                CotrollerConfiguration.GetMobileAppSettingsProvider().GetMobileAppSettings();
-
-            // Get the Notification Hubs credentials for the Mobile App.
-            string notificationHubName = settings.NotificationHubName;
-            string notificationHubConnection = settings
-                .Connections[MobileAppSettingsKeys.NotificationHubConnectionString].ConnectionString;
-
-            // Create the notification hub client.
             NotificationHubClient hub = NotificationHubClient
-                .CreateClientFromConnectionString(notificationHubConnection, notificationHubName);
+                .CreateClientFromConnectionString(notifHubConnectionStr, notificationHubName);
 
-            // Define a WNS payload
             var windowsToastPayload = @"<toast><visual><binding template=""ToastText01""><text id=""1"">"
                                     + "Внимание! Дверь осталась открытой" + @"</text></binding></visual></toast>";
             try
             {
                 // Send the push notification.
                 var result = await hub.SendWindowsNativeNotificationAsync(windowsToastPayload);
-
-                // Write the success result to the logs.
-                config.Services.GetTraceWriter().Info(result.State.ToString());
+                Debug.WriteLine(result.State);
             }
             catch (System.Exception ex)
             {
-                // Write the failure result to the logs.
-                config.Services.GetTraceWriter()
-                    .Error(ex.Message, null, "Push.SendAsync Error");
+                Debug.WriteLine(ex.Message);
             }
         }
     }
