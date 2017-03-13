@@ -1,14 +1,6 @@
-﻿using System;
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading;
-using Microsoft.Owin;
+﻿using Microsoft.Owin;
 using Owin;
-using SmartHouseService.DataObjects;
 using SmartHouseService.IoT;
-using SmartHouseService.Models;
 
 [assembly: OwinStartup(typeof(SmartHouseService.Startup))]
 
@@ -19,21 +11,46 @@ namespace SmartHouseService
         public void Configuration(IAppBuilder app)
         {
             ConfigureMobileApp(app);
-            //IoTHubManager.StartReceive();
-            Thread t = new Thread(WithoutHud);
-            t.Start();
+            IoTHubManager.StartReceive();
         }
 
-        private static int h = 0;
-        private void WithoutHud()
-        {
-            string[] msgs = new[] {"H:23.22;T:33", "D:1", "H:22.11"};
+        //private static int h = 20;
+        //private void WithoutHud()
+        //{
+        //    while (true)
+        //    {
+        //        Debug.WriteLine(h);
+        //        using (var contextService = new MobileServiceContext())
+        //        {
+        //            Parameters paramChange =
+        //                contextService.Parameters.Where(p => p.Name == "Humidity").FirstOrDefault<Parameters>();
+        //            if (paramChange != null)
+        //            {
+        //                paramChange.Value = h++;
+        //                contextService.Entry(paramChange).State = EntityState.Modified;
 
-            foreach (string msg in msgs)
-            {
-                IoTHubManager.ParseAndSave(msg);
-                Thread.Sleep(20000);
-            }
-        }
+        //            }
+        //            else
+        //            {
+        //                contextService.Parameters.Add(new Parameters()
+        //                {
+        //                    Name = "Humidity",
+        //                    Id = Guid.NewGuid().ToString(),
+        //                    Value = h
+        //                });
+        //            }
+
+        //            try
+        //            {
+        //                contextService.SaveChanges();
+        //            }
+        //            catch (DbUpdateConcurrencyException e)
+        //            {
+        //                Debug.WriteLine(String.Format(e.Message + "\n" + e.Entries.Single().ToString()));
+        //            }
+        //        }
+        //        Thread.Sleep(8000);
+        //    }
+        //}
     }
 }
