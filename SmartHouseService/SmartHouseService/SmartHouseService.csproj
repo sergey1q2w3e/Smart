@@ -224,10 +224,7 @@
   <ItemGroup>
     <Compile Include="App_Start\Startup.MobileApp.cs" />
     <Compile Include="Controllers\ParametersController.cs" />
-    <Compile Include="Controllers\TodoItemController.cs" />
-    <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="DataObjects\Parameters.cs" />
-    <Compile Include="DataObjects\TodoItem.cs" />
     <Compile Include="IoT\IoTHubManager.cs" />
     <Compile Include="Models\MobileServiceContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -253,6 +250,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Properties\PublishProfiles\MySmartHouse1 - Web Deploy %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\MySmartHouse1 - Web Deploy.pubxml" />
   </ItemGroup>
   <PropertyGroup>
