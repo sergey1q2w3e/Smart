@@ -99,7 +99,6 @@
       <DependentUpon>QuickStartTask.xaml</DependentUpon>
     </Compile>
     <Compile Include="DataModel\Parameters.cs" />
-    <Compile Include="DataModel\TodoItem.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -112,6 +111,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Package.StoreAssociation.xml" />
+    <Content Include="Assets\3.gif" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />

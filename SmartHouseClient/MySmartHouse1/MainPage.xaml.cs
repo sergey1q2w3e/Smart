@@ -42,6 +42,7 @@ namespace MySmartHouse1
             await InitLocalStoreAsync(); // offline sync
 #endif
             ButtonRefresh_Click(this, null);
+
         }
 
         private async Task InsertParameters(Parameters todoItem)
@@ -98,13 +99,17 @@ namespace MySmartHouse1
         private async void ButtonRefresh_Click(object sender, RoutedEventArgs e)
         {
             //ButtonRefresh.IsEnabled = false;
-
 #if OFFLINE_SYNC_ENABLED
             await SyncAsync(); // offline sync
 #endif
+            imgAnimated.Visibility= Visibility.Visible;
+            imgNotAnimated.Visibility= Visibility.Collapsed;
             await RefreshTodoItems();
 
             ButtonRefresh.IsEnabled = true;
+
+            imgAnimated.Visibility = Visibility.Collapsed;
+            imgNotAnimated.Visibility = Visibility.Visible;
         }
 
         private async void ButtonSave_Click(object sender, RoutedEventArgs e)

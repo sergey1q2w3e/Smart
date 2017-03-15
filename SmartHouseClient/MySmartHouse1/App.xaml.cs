@@ -55,7 +55,7 @@ namespace MySmartHouse1
         /// <param name="e">Details about the launch request and process.</param>
         protected async override void OnLaunched(LaunchActivatedEventArgs e)
         {
-            await InitNotificationsAsync();
+            //await InitNotificationsAsync();
 #if DEBUG
             if (System.Diagnostics.Debugger.IsAttached)
             {
