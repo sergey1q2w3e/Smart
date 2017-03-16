@@ -8,10 +8,10 @@
     mc:Ignorable="d">
 
     <Grid x:Name="LayoutRoot" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Grid x:Name="ContentGrid" Margin="12">
+        <Grid x:Name="ContentGrid" Margin="5">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
+                
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -20,25 +20,57 @@
             </Grid.RowDefinitions>
 
             <!--TitleGrid contains the name of the application and page title-->
-            <Grid x:Name="TitleGrid" Grid.Row="0" Grid.ColumnSpan="2" Margin="0,0,0,16">
+            <Grid x:Name="TitleGrid" Grid.Row="0" Grid.ColumnSpan="2" Margin="5,10,5,16">
                 <StackPanel>
-                    <TextBlock Foreground="#0094ff" FontFamily="Segoe UI Light" Margin="0,0,0,6">AZURE APP SERVICE</TextBlock>
-                    <TextBlock x:Name="TitleTextBlock" Foreground="Gray" FontFamily="Segoe UI Light" FontSize="20" >Try Mobile Apps</TextBlock>
+                    <TextBlock Foreground="#0094ff" FontFamily="Segoe UI Light" Margin="6,0,0,6" FontSize="20">SMART HOUSE</TextBlock>
+                    <!--<TextBlock x:Name="TitleTextBlock" Foreground="Gray" FontFamily="Segoe UI Light" FontSize="20" >Try Mobile Apps</TextBlock>-->
                 </StackPanel>
             </Grid>
 
             <!--ContentPanel - place additional content here-->
             <Grid x:Name="ContentPanel" Grid.Row="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
+                
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
+                <Grid Grid.Row="0" Background="Gainsboro">
+                    <TextBlock Foreground="Gray" FontFamily="Segoe UI Light" FontSize="20" HorizontalAlignment="Center"  >Bathroom</TextBlock>
+                </Grid>
+                <StackPanel Grid.Row="1">
+                    <Grid Margin="10,0,10,10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="2*"/>
+                        </Grid.ColumnDefinitions>
 
-                <StackPanel Grid.Row="0">
+                        <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Margin="0,10,10,10">Temperature:</TextBlock>
+                        <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Margin="0,10,10,10">Humidity:</TextBlock>
+
+                        <TextBlock Grid.Row="0" Grid.Column="1" Name="txtTemperature" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,10,10,10" FontSize="24" FontWeight="Bold" Text="{Binding Path=HouseEntity.Temperature}"></TextBlock>
+                        <TextBlock Grid.Row="1" Grid.Column="1" Name="txtHumidity" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,10,10,10" FontSize="24" FontWeight="Bold" Text="{Binding Path=HouseEntity.Humidity}"></TextBlock>
+
+                    </Grid>
+                    <StackPanel Orientation="Horizontal" Margin="10,0,10,10">
+                        <TextBlock Margin="0,10,10,10" VerticalAlignment="Center" HorizontalAlignment="Center">Fan Mode</TextBlock>
+                        <ComboBox Name="FanMode" SelectedIndex="0" Margin="0,10,10,10" SelectionChanged="ComboFan_OnSelectionChanged" Width="100">
+                            <ComboBoxItem Content="Auto" IsSelected="True"/>
+                            <ComboBoxItem Content="Manual"/>
+                        </ComboBox>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="10,0,10,10">
+                        <TextBlock Margin="0,10,10,10" VerticalAlignment="Center" HorizontalAlignment="Center">Fan Power</TextBlock>
+                        <ComboBox Name="FanPower" SelectedIndex="0" Margin="0,10,10,10" SelectionChanged="ComboFan_OnSelectionChanged" Width="100">
+                            <ComboBoxItem Content="Off" IsSelected="True"/>
+                            <ComboBoxItem Content="On"/>
+                        </ComboBox>
+                    </StackPanel>
+                </StackPanel>
+                <!--<StackPanel Grid.Row="0">
                     <StackPanel x:Name="addItemPanel" Orientation="Vertical">
                         <TextBox Grid.Row="1" MinWidth="140" Margin="5,5,5,5" Name="ValueInput" KeyDown="TextInput_KeyDown" Height="44" Width="137"></TextBox>
 
@@ -46,39 +78,26 @@
                         <Button Name="ButtonSave" Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" Margin="0,8,8,8" Click="ButtonSave_Click">
                             <StackPanel Orientation="Horizontal">
                                 <SymbolIcon Symbol="Add"/>
-                                
-                                
-                                <!--<Image Margin="20" HorizontalAlignment="Left" Stretch="None">
+
+
+                                <Image Margin="20" HorizontalAlignment="Left" Stretch="None">
                                     <Image.Source>
                                         <BitmapImage AutoPlay="False" UriSource="Assets/3.gif"/>
                                     </Image.Source>
-                                </Image>-->
-                                
-                                       
+                                </Image>
+
+
                                 <TextBlock Margin="5">Save</TextBlock>
                             </StackPanel>
                         </Button>
                         <Button Name="TestButton" Margin="0,8" Click="TestButton_Click" Width="81" Height="33">Test</Button>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,10,10">
-                            <TextBlock Margin="0,10,10,10">Fan Mode</TextBlock>
-                            <ComboBox Name="FanMode" SelectedIndex="0" Margin="0,10,10,10" SelectionChanged="ComboFan_OnSelectionChanged" Width="81">
-                                <ComboBoxItem Content="Auto" IsSelected="True"/>
-                                <ComboBoxItem Content="Manual"/>
-                            </ComboBox>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,10,10">
-                            <TextBlock Margin="0,10,10,10">Fan Power</TextBlock>
-                            <ComboBox Name="FanPower" SelectedIndex="0" Margin="0,10,10,10" SelectionChanged="ComboFan_OnSelectionChanged" Width="81">
-                                <ComboBoxItem Content="Off" IsSelected="True"/>
-                                <ComboBoxItem Content="On"/>
-                            </ComboBox>
-                        </StackPanel>
+                        
                     </StackPanel>
-                </StackPanel>
+                </StackPanel>-->
 
             </Grid>
 
-            <Grid x:Name="ItemsGrid" Grid.Row="1" Grid.Column="1">
+            <Grid x:Name="ItemsGrid" Grid.Row="2" >
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="500"/>
@@ -88,6 +107,7 @@
 
                     <Button x:Name="ButtonRefresh" Click="ButtonRefresh_Click" Margin="72,10,0,0" Height="44"
                               HorizontalAlignment="Center">
+
                         <StackPanel Orientation="Horizontal">
                             <SymbolIcon x:Name="imgNotAnimated" Symbol="Refresh"/>
                             <Image Name="imgAnimated" Visibility="Collapsed" Source="Assets/3.gif" RenderTransformOrigin="0.5,0.5">
@@ -111,7 +131,7 @@
                             <TextBlock Margin="5">Refresh</TextBlock>
                         </StackPanel>
                     </Button>
-
+                    <Button Width="100" Height="40" Content="++" RelativePanel.RightOf="ButtonRefresh" Margin="10" Click="IncrementParameters"/>
                 </RelativePanel>
 
                 <ScrollViewer Grid.Row="1" Margin="0,10,0,0" 
