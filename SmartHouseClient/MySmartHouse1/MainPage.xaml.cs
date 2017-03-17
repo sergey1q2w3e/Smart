@@ -9,6 +9,7 @@
 
 using Microsoft.WindowsAzure.MobileServices;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
@@ -87,8 +88,15 @@ namespace MySmartHouse1
             else
             {
                 ListItems.ItemsSource = items;
-                //this.ButtonSave.IsEnabled = true;
                 
+                
+                currentHouseEntity.HouseEntity.Temperature = items.FirstOrDefault(i => i.Name == "Temperature")?.Value;
+                currentHouseEntity.HouseEntity.Humidity = items.FirstOrDefault(i => i.Name == "Humidity")?.Value;
+                currentHouseEntity.HouseEntity.FanMode = items.FirstOrDefault(i => i.Name == "FanMode")?.Value;
+                currentHouseEntity.HouseEntity.FanPower = items.FirstOrDefault(i => i.Name == "FanPower")?.Value;
+
+                //this.ButtonSave.IsEnabled = true;
+
             }
         }
 

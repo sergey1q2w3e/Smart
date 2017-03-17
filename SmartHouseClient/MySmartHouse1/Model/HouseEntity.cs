@@ -19,13 +19,13 @@ namespace MySmartHouse1.Common
             }
         }
 
-        private int _humidity;
-        private int _temperature;
-        private int _fanMode;
-        private int _fanPower;
+        private int? _humidity;
+        private int? _temperature;
+        private int? _fanMode;
+        private int? _fanPower;
         private int _door;
 
-        public int Humidity
+        public int? Humidity
         {
             get { return _humidity; }
             set
@@ -38,7 +38,7 @@ namespace MySmartHouse1.Common
             }
         }
 
-        public int Temperature
+        public int? Temperature
         {
             get { return _temperature; }
             set
@@ -50,8 +50,32 @@ namespace MySmartHouse1.Common
                 }
             }
         }
-        public int FanMode { get; set; }
-        public int FanPower { get; set; }
+
+        public int? FanMode
+        {
+            get { return _fanMode; }
+            set
+            {
+                if (_fanMode != value)
+                {
+                    _fanMode = value;
+                    OnPropertyChanged("FanMode");
+                }
+            }
+        }
+
+        public int? FanPower
+        {
+            get { return _fanPower; }
+            set
+            {
+                if (_fanPower != value)
+                {
+                    _fanPower = value;
+                    OnPropertyChanged("FanPower");
+                }
+            }
+        }
         public int Door { get; set; }
     }
 }

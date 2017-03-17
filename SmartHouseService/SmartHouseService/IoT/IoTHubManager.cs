@@ -27,9 +27,6 @@ namespace SmartHouseService.IoT
         private static string notificationHubName = "myhub";
         static ServiceClient serviceClient;
 
-        public static HttpConfiguration CotrollerConfiguration;
-
-
         public static void StartReceive()
         {
             var eventHubClient = EventHubClient.CreateFromConnectionString(connectionString, iotHubD2cEndpoint);

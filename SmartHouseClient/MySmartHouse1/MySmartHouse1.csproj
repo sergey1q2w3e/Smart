@@ -95,10 +95,10 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Model\HouseEntity.cs" />
     <Compile Include="Common\QuickStartTask.xaml.cs">
       <DependentUpon>QuickStartTask.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Model\HouseEntity.cs" />
     <Compile Include="ViewModel\ViewHouseEntity.cs" />
     <Compile Include="DataModel\Parameters.cs" />
     <Compile Include="MainPage.xaml.cs">
