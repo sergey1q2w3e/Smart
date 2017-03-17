@@ -9,11 +9,13 @@
 
 using Microsoft.WindowsAzure.MobileServices;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using MySmartHouse1.Common;
 
 #if OFFLINE_SYNC_ENABLED
 using Microsoft.WindowsAzure.MobileServices.SQLiteStore;  // offline sync
@@ -30,10 +32,17 @@ namespace MySmartHouse1
 #else
         private IMobileServiceTable<Parameters> parameters = App.MobileService.GetTable<Parameters>();
 #endif
+        private ViewHouseEntity currentHouseEntity;
+
+        
 
         public MainPage()
         {
             this.InitializeComponent();
+            currentHouseEntity = new ViewHouseEntity();
+            ContentPanel.DataContext = currentHouseEntity;
+            //currentHouseEntity.Humidity = 30;
+            //currentHouseEntity.Temperature = 25;
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
@@ -42,6 +51,7 @@ namespace MySmartHouse1
             await InitLocalStoreAsync(); // offline sync
 #endif
             ButtonRefresh_Click(this, null);
+
         }
 
         private async Task InsertParameters(Parameters todoItem)
@@ -78,7 +88,15 @@ namespace MySmartHouse1
             else
             {
                 ListItems.ItemsSource = items;
-                this.ButtonSave.IsEnabled = true;
+                
+                
+                currentHouseEntity.HouseEntity.Temperature = items.FirstOrDefault(i => i.Name == "Temperature")?.Value;
+                currentHouseEntity.HouseEntity.Humidity = items.FirstOrDefault(i => i.Name == "Humidity")?.Value;
+                currentHouseEntity.HouseEntity.FanMode = items.FirstOrDefault(i => i.Name == "FanMode")?.Value;
+                currentHouseEntity.HouseEntity.FanPower = items.FirstOrDefault(i => i.Name == "FanPower")?.Value;
+
+                //this.ButtonSave.IsEnabled = true;
+
             }
         }
 
@@ -98,30 +116,34 @@ namespace MySmartHouse1
         private async void ButtonRefresh_Click(object sender, RoutedEventArgs e)
         {
             //ButtonRefresh.IsEnabled = false;
-
 #if OFFLINE_SYNC_ENABLED
             await SyncAsync(); // offline sync
 #endif
+            imgAnimated.Visibility= Visibility.Visible;
+            imgNotAnimated.Visibility= Visibility.Collapsed;
             await RefreshTodoItems();
 
             ButtonRefresh.IsEnabled = true;
+
+            imgAnimated.Visibility = Visibility.Collapsed;
+            imgNotAnimated.Visibility = Visibility.Visible;
         }
 
-        private async void ButtonSave_Click(object sender, RoutedEventArgs e)
-        {
-            var todoItem = new Parameters { Name = NameInput.Text, Value = Int32.Parse(ValueInput.Text)};
-            ValueInput.Text = "";
-            NameInput.Text = "";
-            await InsertParameters(todoItem);
-        }
+        //private async void ButtonSave_Click(object sender, RoutedEventArgs e)
+        //{
+        //    var todoItem = new Parameters { Name = NameInput.Text, Value = Int32.Parse(ValueInput.Text)};
+        //    ValueInput.Text = "";
+        //    NameInput.Text = "";
+        //    await InsertParameters(todoItem);
+        //}
 
 
-        private void TextInput_KeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
-        {
-            if (e.Key == Windows.System.VirtualKey.Enter) {
-                ButtonSave.Focus(FocusState.Programmatic);
-            }
-        }
+        //private void TextInput_KeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
+        //{
+        //    if (e.Key == Windows.System.VirtualKey.Enter) {
+        //        ButtonSave.Focus(FocusState.Programmatic);
+        //    }
+        //}
 
         #region Offline sync
 #if OFFLINE_SYNC_ENABLED
@@ -177,6 +199,14 @@ namespace MySmartHouse1
                     await parameters.UpdateAsync(item);
                 }
             }
+        }
+
+        private void IncrementParameters(object sender, RoutedEventArgs e)
+        {
+            //((ViewHouseEntity)ContentPanel.DataContext).HouseEntity.Humidity++;
+            //((ViewHouseEntity)ContentPanel.DataContext).HouseEntity.Temperature++;
+            currentHouseEntity.HouseEntity.Humidity++;
+            currentHouseEntity.HouseEntity.Temperature++;
         }
     }
 }

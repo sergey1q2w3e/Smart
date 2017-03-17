@@ -19,7 +19,6 @@ namespace SmartHouseService.Controllers
             base.Initialize(controllerContext);
             MobileServiceContext context = new MobileServiceContext();
             DomainManager = new EntityDomainManager<Parameters>(context, Request);
-            IoTHubManager.CotrollerConfiguration = Configuration;
         }
 
         // GET tables/Parameters

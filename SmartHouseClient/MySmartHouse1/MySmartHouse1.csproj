@@ -11,7 +11,7 @@
     <AssemblyName>MySmartHouse1</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion>10.0.14393.0</TargetPlatformVersion>
+    <TargetPlatformVersion>10.0.10240.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.10240.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
@@ -98,8 +98,9 @@
     <Compile Include="Common\QuickStartTask.xaml.cs">
       <DependentUpon>QuickStartTask.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Model\HouseEntity.cs" />
+    <Compile Include="ViewModel\ViewHouseEntity.cs" />
     <Compile Include="DataModel\Parameters.cs" />
-    <Compile Include="DataModel\TodoItem.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -112,9 +113,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Package.StoreAssociation.xml" />
-    <None Include="Assets\3.gif">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <Content Include="Assets\3.gif" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
@@ -138,6 +137,7 @@
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
