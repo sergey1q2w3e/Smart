@@ -15,6 +15,7 @@ using Microsoft.Azure.Devices;
 using Microsoft.Azure.Mobile.Server;
 using Microsoft.Azure.NotificationHubs;
 using Microsoft.Azure.Mobile.Server.Config;
+using System.Globalization;
 
 namespace SmartHouseService.IoT
 {
@@ -83,27 +84,34 @@ namespace SmartHouseService.IoT
             for (int i = 0; i < massParam.Length; i++)
             {
                 string[] parameter = massParam[i].Split(':');
-                switch (parameter[0])
+                try
                 {
-                    case "H":
-                        int h = int.Parse(parameter[1].Substring(0, 2));
-                        SaveParameter("Humidity", h);
-                        break;
-                    case "T":
-                        int t = int.Parse(parameter[1].Substring(0, 2));
-                        SaveParameter("Temperature", t);
-                        break;
-                    case "D":
-                        int d = int.Parse(parameter[1]);
-                        if (d < 0)
-                        {
-                            Alarm();
-                        }
-                        else
-                        {
-                            SaveParameter("Door", d);
-                        }
-                        break;
+                    switch (parameter[0])
+                    {
+                        case "H":
+                            int h = int.Parse(parameter[1].Substring(0, 2));
+                            SaveParameter("Humidity", h);
+                            break;
+                        case "T":
+                            double t = double.Parse(parameter[1], CultureInfo.InvariantCulture);
+                            SaveParameter("Temperature", (int)t);
+                            break;
+                        case "D":
+                            int d = int.Parse(parameter[1]);
+                            if (d < 0)
+                            {
+                                Alarm();
+                            }
+                            else
+                            {
+                                SaveParameter("Door", d);
+                            }
+                            break;
+                    }
+                }
+                catch(Exception e)
+                {
+                    Debug.WriteLine(String.Format("{0}: {1}",e.Message,parameter[1]));
                 }
             }
         }

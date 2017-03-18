@@ -16,6 +16,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using MySmartHouse1.Common;
+using System.Net.Http;
 
 #if OFFLINE_SYNC_ENABLED
 using Microsoft.WindowsAzure.MobileServices.SQLiteStore;  // offline sync
@@ -80,6 +81,11 @@ namespace MySmartHouse1
             {
                 exception = e;
             }
+            catch(HttpRequestException e)
+            {
+                await new MessageDialog(String.Format("{0}\nService is not available", e.Message), "Error loading items").ShowAsync();
+                return;
+            }
 
             if (exception != null)
             {
@@ -94,7 +100,7 @@ namespace MySmartHouse1
                 currentHouseEntity.HouseEntity.Humidity = items.FirstOrDefault(i => i.Name == "Humidity")?.Value;
                 currentHouseEntity.HouseEntity.FanMode = items.FirstOrDefault(i => i.Name == "FanMode")?.Value;
                 currentHouseEntity.HouseEntity.FanPower = items.FirstOrDefault(i => i.Name == "FanPower")?.Value;
-
+               
                 //this.ButtonSave.IsEnabled = true;
 
             }
