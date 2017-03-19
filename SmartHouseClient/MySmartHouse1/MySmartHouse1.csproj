@@ -113,6 +113,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Package.StoreAssociation.xml" />
+    <Content Include="Assets\door_0.png" />
+    <Content Include="Assets\door_1.png" />
+    <Content Include="Assets\door_2.png" />
+    <Content Include="Assets\door_3.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
