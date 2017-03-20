@@ -76,6 +76,18 @@ namespace MySmartHouse1.Common
                 }
             }
         }
-        public int Door { get; set; }
+
+        public int Door
+        {
+            get { return _door; }
+            set
+            {
+                if (_door != value)
+                {
+                    _door = value;
+                    OnPropertyChanged("Door");
+                }
+            }
+        }
     }
 }

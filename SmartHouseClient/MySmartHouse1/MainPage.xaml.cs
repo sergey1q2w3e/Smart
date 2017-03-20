@@ -35,15 +35,11 @@ namespace MySmartHouse1
 #endif
         private ViewHouseEntity currentHouseEntity;
 
-        
-
         public MainPage()
         {
             this.InitializeComponent();
             currentHouseEntity = new ViewHouseEntity();
             ContentPanel.DataContext = currentHouseEntity;
-            //currentHouseEntity.Humidity = 30;
-            //currentHouseEntity.Temperature = 25;
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
@@ -95,14 +91,12 @@ namespace MySmartHouse1
             {
                 ListItems.ItemsSource = items;
                 
-                
                 currentHouseEntity.HouseEntity.Temperature = items.FirstOrDefault(i => i.Name == "Temperature")?.Value;
                 currentHouseEntity.HouseEntity.Humidity = items.FirstOrDefault(i => i.Name == "Humidity")?.Value;
                 currentHouseEntity.HouseEntity.FanMode = items.FirstOrDefault(i => i.Name == "FanMode")?.Value;
                 currentHouseEntity.HouseEntity.FanPower = items.FirstOrDefault(i => i.Name == "FanPower")?.Value;
-               
+                currentHouseEntity.HouseEntity.Door = items.FirstOrDefault(i => i.Name == "Door").Value;
                 //this.ButtonSave.IsEnabled = true;
-
             }
         }
 
@@ -173,16 +167,6 @@ namespace MySmartHouse1
 #endif
         #endregion
 
-        private async void TestButton_Click(object sender, RoutedEventArgs e)
-        {
-            var forUpdate = await parameters.Where(i => i.Name == "Humidity").ToListAsync();
-            foreach(var item in forUpdate)
-            {
-                item.Value = 9113;
-                await parameters.UpdateAsync(item);
-            }
-        }
-
         private async void ComboFan_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var combo = sender as ComboBox;
@@ -190,12 +174,12 @@ namespace MySmartHouse1
             var forUpdate = await parameters.Where(i => i.Name == combo.Name ).ToListAsync();
             if (forUpdate.Count == 0)
             {
-                Parameters fanModeRow = new Parameters
+                Parameters fanRow = new Parameters
                 {
                     Name = combo.Name,
                     Value = combo.SelectedIndex
                 };
-                await InsertParameters(fanModeRow);
+                await InsertParameters(fanRow);
             }
             else
             {
@@ -209,10 +193,9 @@ namespace MySmartHouse1
 
         private void IncrementParameters(object sender, RoutedEventArgs e)
         {
-            //((ViewHouseEntity)ContentPanel.DataContext).HouseEntity.Humidity++;
-            //((ViewHouseEntity)ContentPanel.DataContext).HouseEntity.Temperature++;
             currentHouseEntity.HouseEntity.Humidity++;
             currentHouseEntity.HouseEntity.Temperature++;
+            currentHouseEntity.HouseEntity.Door++;
         }
     }
 }
