@@ -3,6 +3,7 @@ using SmartHouseService.DataObjects;
 using SmartHouseService.Models;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Diagnostics;
@@ -21,17 +22,19 @@ namespace SmartHouseService.IoT
 {
     public static class IoTHubManager
     {
-        private static string connectionString = "HostName=myiothubesp8266.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=3+lHjdnCdqguuSF+ghkLWYCY+5gu2aziirph/tYoHPY=";
-        private static string iotHubD2cEndpoint = "messages/events";
-        private static string deviceID = "esp8266";
-        private static string notifHubConnectionStr = "Endpoint=sb://myhubnamespace.servicebus.windows.net/;SharedAccessKeyName=DefaultFullSharedAccessSignature;SharedAccessKey=voDbGB7f0c99MG1t+wvRZEMruKapTmrywNB7r05mMss=";
-        private static string notificationHubName = "myhub";
+        //private static string connectionString = "HostName=myiothubesp8266.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=3+lHjdnCdqguuSF+ghkLWYCY+5gu2aziirph/tYoHPY=";
+        //private static string iotHubD2cEndpoint = "messages/events";
+        //private static string deviceID = "esp8266";
+        //private static string notifHubConnectionStr = "Endpoint=sb://myhubnamespace.servicebus.windows.net/;SharedAccessKeyName=DefaultFullSharedAccessSignature;SharedAccessKey=voDbGB7f0c99MG1t+wvRZEMruKapTmrywNB7r05mMss=";
+        //private static string notificationHubName = "myhub";
         static ServiceClient serviceClient;
 
         public static void StartReceive()
         {
-            var eventHubClient = EventHubClient.CreateFromConnectionString(connectionString, iotHubD2cEndpoint);
-
+            string connectionString = ConfigurationManager.ConnectionStrings["IoTHubConnectionString"].ConnectionString;
+            string iotHubD2CEndpoint = ConfigurationManager.AppSettings["IoTHubEndPoint"];
+            var eventHubClient = EventHubClient.CreateFromConnectionString(connectionString, iotHubD2CEndpoint);
+            
             var d2cPartitions = eventHubClient.GetRuntimeInformation().PartitionIds;
 
             foreach (string partition in d2cPartitions)
@@ -70,10 +73,10 @@ namespace SmartHouseService.IoT
                     Debug.WriteLine("Unknow parameter for send to esp8266");
                     break;
             }
-            if(serviceClient == null) serviceClient = ServiceClient.CreateFromConnectionString(connectionString);
+            if(serviceClient == null) serviceClient = ServiceClient.CreateFromConnectionString(ConfigurationManager.ConnectionStrings["IoTHubConnectionString"].ConnectionString);
             var commandMessage = new Message(Encoding.UTF8.GetBytes(message));
 
-            await serviceClient.SendAsync(deviceID, commandMessage);
+            await serviceClient.SendAsync(ConfigurationManager.AppSettings["DeviceID"], commandMessage);
             Debug.WriteLine(String.Format("Send message: {0}", message));
         }
 
@@ -148,6 +151,8 @@ namespace SmartHouseService.IoT
 
         private static async void Alarm()
         {
+            string notifHubConnectionStr = ConfigurationManager.ConnectionStrings["NotifHubConnectionString"].ConnectionString;
+            string notificationHubName = ConfigurationManager.AppSettings["NotificationHubName"];
             NotificationHubClient hub = NotificationHubClient
                 .CreateClientFromConnectionString(notifHubConnectionStr, notificationHubName);
 

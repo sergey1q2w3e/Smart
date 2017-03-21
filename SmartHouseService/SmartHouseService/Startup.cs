@@ -1,4 +1,6 @@
-﻿using Microsoft.Owin;
+﻿using System.Configuration;
+using System.Diagnostics;
+using Microsoft.Owin;
 using Owin;
 using SmartHouseService.IoT;
 
@@ -11,7 +13,8 @@ namespace SmartHouseService
         public void Configuration(IAppBuilder app)
         {
             ConfigureMobileApp(app);
-            IoTHubManager.StartReceive();
+            //IoTHubManager.StartReceive();
+            Debug.WriteLine(ConfigurationManager.ConnectionStrings["IoTHubConnectionString"].ConnectionString);
         }
 
         //private static int h = 20;
