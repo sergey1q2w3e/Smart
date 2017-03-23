@@ -2,7 +2,6 @@
 using SmartHouseService.DataObjects;
 using SmartHouseService.Models;
 using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
@@ -10,12 +9,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web;
-using System.Web.Http;
 using Microsoft.Azure.Devices;
-using Microsoft.Azure.Mobile.Server;
 using Microsoft.Azure.NotificationHubs;
-using Microsoft.Azure.Mobile.Server.Config;
 using System.Globalization;
 
 namespace SmartHouseService.IoT
@@ -27,7 +22,7 @@ namespace SmartHouseService.IoT
         //private static string deviceID = "esp8266";
         //private static string notifHubConnectionStr = "Endpoint=sb://myhubnamespace.servicebus.windows.net/;SharedAccessKeyName=DefaultFullSharedAccessSignature;SharedAccessKey=voDbGB7f0c99MG1t+wvRZEMruKapTmrywNB7r05mMss=";
         //private static string notificationHubName = "myhub";
-        static ServiceClient serviceClient;
+        private static ServiceClient serviceClient;
 
         public static void StartReceive()
         {
@@ -86,14 +81,20 @@ namespace SmartHouseService.IoT
             string[] massParam = incMsg.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
             for (int i = 0; i < massParam.Length; i++)
             {
-                string[] parameter = massParam[i].Split(':');
+                string[] parameter = massParam[i].Split(new char[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
+                if (parameter.Length != 2)
+                {
+                    string strParameter = parameter.Aggregate("", (current, item) => current + item);
+                    Debug.WriteLine(String.Format("Incorrect parameter received from IoT: {0}\nCan't parse this",strParameter));
+                    continue;
+                }
                 try
                 {
                     switch (parameter[0])
                     {
                         case "H":
-                            int h = int.Parse(parameter[1].Substring(0, 2));
-                            SaveParameter("Humidity", h);
+                            double h = double.Parse(parameter[1], CultureInfo.InvariantCulture);
+                            SaveParameter("Humidity", (int)h);
                             break;
                         case "T":
                             double t = double.Parse(parameter[1], CultureInfo.InvariantCulture);

@@ -14,7 +14,6 @@ namespace SmartHouseService
         {
             ConfigureMobileApp(app);
             //IoTHubManager.StartReceive();
-            Debug.WriteLine(ConfigurationManager.ConnectionStrings["IoTHubConnectionString"].ConnectionString);
         }
 
         //private static int h = 20;

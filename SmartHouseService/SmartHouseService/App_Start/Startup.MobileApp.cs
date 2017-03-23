@@ -9,7 +9,6 @@ using Microsoft.Azure.Mobile.Server.Config;
 using SmartHouseService.DataObjects;
 using SmartHouseService.Models;
 using Owin;
-using SmartHouseService.Controllers;
 
 namespace SmartHouseService
 {
