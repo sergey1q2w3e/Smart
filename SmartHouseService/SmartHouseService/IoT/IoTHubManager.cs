@@ -15,16 +15,27 @@ using System.Globalization;
 
 namespace SmartHouseService.IoT
 {
-    public static class IoTHubManager
+    public class IoTHubManager
     {
+        private static IoTHubManager _instance;
         //private static string connectionString = "HostName=myiothubesp8266.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=3+lHjdnCdqguuSF+ghkLWYCY+5gu2aziirph/tYoHPY=";
         //private static string iotHubD2cEndpoint = "messages/events";
         //private static string deviceID = "esp8266";
         //private static string notifHubConnectionStr = "Endpoint=sb://myhubnamespace.servicebus.windows.net/;SharedAccessKeyName=DefaultFullSharedAccessSignature;SharedAccessKey=voDbGB7f0c99MG1t+wvRZEMruKapTmrywNB7r05mMss=";
         //private static string notificationHubName = "myhub";
-        private static ServiceClient serviceClient;
+        private ServiceClient _serviceClient;
 
-        public static void StartReceive()
+        private IoTHubManager(bool startReceiver)
+        {
+            if(startReceiver) StartReceive();
+        }
+
+        public static IoTHubManager GetInstance(bool startReceiver)
+        {
+            return _instance ?? (_instance = new IoTHubManager(startReceiver));
+        }
+
+        public void StartReceive()
         {
             string connectionString = ConfigurationManager.ConnectionStrings["IoTHubConnectionString"].ConnectionString;
             string iotHubD2CEndpoint = ConfigurationManager.AppSettings["IoTHubEndPoint"];
@@ -40,7 +51,7 @@ namespace SmartHouseService.IoT
             }
         }
 
-        private async static Task ReceiveMessagesFromDeviceAsync(EventHubReceiver receiver)
+        private async Task ReceiveMessagesFromDeviceAsync(EventHubReceiver receiver)
         {
             while (true)
             {
@@ -53,7 +64,7 @@ namespace SmartHouseService.IoT
             }
         }
 
-        public async static Task SendParameterMessage(Parameters paramMessage)
+        public async Task SendParameterMessage(Parameters paramMessage)
         {
             string message = "";
             switch (paramMessage.Name)
@@ -68,14 +79,14 @@ namespace SmartHouseService.IoT
                     Debug.WriteLine("Unknow parameter for send to esp8266");
                     break;
             }
-            if(serviceClient == null) serviceClient = ServiceClient.CreateFromConnectionString(ConfigurationManager.ConnectionStrings["IoTHubConnectionString"].ConnectionString);
+            if(_serviceClient == null) _serviceClient = ServiceClient.CreateFromConnectionString(ConfigurationManager.ConnectionStrings["IoTHubConnectionString"].ConnectionString);
             var commandMessage = new Message(Encoding.UTF8.GetBytes(message));
 
-            await serviceClient.SendAsync(ConfigurationManager.AppSettings["DeviceID"], commandMessage);
+            await _serviceClient.SendAsync(ConfigurationManager.AppSettings["DeviceID"], commandMessage);
             Debug.WriteLine(String.Format("Send message: {0}", message));
         }
 
-        public static void ParseAndSave(string incMsg)
+        private void ParseAndSave(string incMsg)
         {
             Debug.WriteLine(String.Format("Parsing..  {0}", incMsg));
             string[] massParam = incMsg.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
@@ -119,7 +130,7 @@ namespace SmartHouseService.IoT
                 }
             }
         }
-        private static void SaveParameter(string name, int value)
+        private void SaveParameter(string name, int value)
         {
             using (var contextService = new MobileServiceContext())
             {
@@ -150,7 +161,7 @@ namespace SmartHouseService.IoT
             }
         }
 
-        private static async void Alarm()
+        private async void Alarm()
         {
             string notifHubConnectionStr = ConfigurationManager.ConnectionStrings["NotifHubConnectionString"].ConnectionString;
             string notificationHubName = ConfigurationManager.AppSettings["NotificationHubName"];

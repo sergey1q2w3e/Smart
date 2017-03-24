@@ -6,7 +6,6 @@ using System.Web.Http.OData;
 using Microsoft.Azure.Mobile.Server;
 using SmartHouseService.DataObjects;
 using SmartHouseService.Models;
-using SmartHouseService.IoT;
 
 namespace SmartHouseService.Controllers
 {
@@ -35,7 +34,7 @@ namespace SmartHouseService.Controllers
         public async Task<Parameters> PatchParameters(string id, Delta<Parameters> patch)
         {
             Parameters paramUpdated = await UpdateAsync(id, patch);
-            await IoTHubManager.SendParameterMessage(paramUpdated);
+            await Startup.IoTHubManager.SendParameterMessage(paramUpdated);
             return paramUpdated;
         }
 
