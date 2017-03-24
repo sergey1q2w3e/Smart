@@ -10,10 +10,11 @@ namespace SmartHouseService
 {
     public partial class Startup
     {
+        public static IoTHubManager IoTHubManager;
         public void Configuration(IAppBuilder app)
         {
             ConfigureMobileApp(app);
-            //IoTHubManager.StartReceive();
+            IoTHubManager = IoTHubManager.GetInstance(true);
         }
 
         //private static int h = 20;
