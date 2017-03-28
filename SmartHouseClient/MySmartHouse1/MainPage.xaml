@@ -10,9 +10,11 @@
     <Page.Resources>
         <local:LockDoorImagePathConverter x:Key="ImgConverter"></local:LockDoorImagePathConverter>
         <local:ToggleTrueFalseConverter x:Key="TrueFalseConverter"></local:ToggleTrueFalseConverter>
+        <local:BooleanToVisibilityConverter x:Key="BoolToVisConverter"></local:BooleanToVisibilityConverter>
+        <local:IsParameterBusyConvertor x:Key="BusyConvertor"></local:IsParameterBusyConvertor>
     </Page.Resources>
     <Grid x:Name="LayoutRoot" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Grid x:Name="ContentGrid">
+        <Grid x:Name="ContentGrid" Padding="0,0,0,50">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
 
@@ -67,8 +69,14 @@
                     </Grid>
                     <Border Background="Gainsboro" Height="3"/>
                     <StackPanel Orientation="Vertical" Margin="10,0,10,10">
-                        <ToggleSwitch x:Name="FanPower" IsOn="{Binding HouseEntity.FanPower, Mode=TwoWay, Converter={StaticResource TrueFalseConverter}}" Header="Fan Power" FontSize="18" Toggled="ToggleSwitch_Toggled"/>
-                        <ToggleSwitch x:Name="FanMode" IsOn="{Binding HouseEntity.FanMode, Mode=TwoWay, Converter={StaticResource TrueFalseConverter}}" Header="Fan Mode" FontSize="18" OffContent="Auto" OnContent="Manual" Toggled="ToggleSwitch_Toggled"/>
+                        <StackPanel Orientation="Horizontal">
+                            <ToggleSwitch x:Name="FanPower" IsOn="{Binding HouseEntity.FanPower, Mode=TwoWay, Converter={StaticResource TrueFalseConverter}}" Header="Fan Power" FontSize="18" Toggled="ToggleSwitch_Toggled"/>
+                            <ProgressRing x:Name="ProgressRingPower"></ProgressRing>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <ToggleSwitch x:Name="FanMode" IsOn="{Binding HouseEntity.FanMode, Mode=TwoWay, Converter={StaticResource TrueFalseConverter}}" Header="Fan Mode" FontSize="18" OffContent="Auto" OnContent="Manual" Width="91" Toggled="ToggleSwitch_Toggled"/>
+                            <ProgressRing x:Name="ProgressRingMode"></ProgressRing>
+                        </StackPanel>
                     </StackPanel>
                 </StackPanel>
                 <!--<StackPanel Grid.Row="0">
@@ -118,7 +126,7 @@
 
                 <RelativePanel Grid.Row="0" Grid.ColumnSpan="2" Margin="0,0,10,0">
 
-                    <Button x:Name="ButtonRefresh" Click="ButtonRefresh_Click" Margin="72,10,0,0" Height="80" Width="180"
+                    <!--<Button x:Name="ButtonRefresh" Click="ButtonRefresh_Click" Margin="72,10,0,0" Height="80" Width="180"
                               HorizontalAlignment="Center">
 
                         <StackPanel Orientation="Horizontal">
@@ -143,8 +151,8 @@
                             </SymbolIcon>
                             <TextBlock Margin="5">Refresh</TextBlock>
                         </StackPanel>
-                    </Button>
-                    <Button Width="100" Height="40" Content="++" RelativePanel.RightOf="ButtonRefresh" Margin="10" Click="IncrementParameters"/>
+                    </Button>-->
+                    <Button Width="100" Height="40" Content="++" Margin="10" Click="IncrementParameters"/>
                 </RelativePanel>
 
                 <ScrollViewer Grid.Row="1" Margin="0,10,0,0" 
@@ -162,6 +170,21 @@
                     </ListView>
                 </ScrollViewer>
             </Grid>
+        </Grid>
+        <Grid>
+            <Button x:Name="RefreshButton" IsEnabled="{Binding IsParameterBusy, Converter={StaticResource BusyConvertor}}" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Canvas.ZIndex="1" Height="50" BorderThickness="0,0,0.6,0" Click="ButtonRefresh_Click">
+                <StackPanel Orientation="Horizontal">
+                    <SymbolIcon Symbol="Refresh" RenderTransformOrigin="0.5,0.5">
+                        <SymbolIcon.RenderTransform>
+                            <CompositeTransform ScaleX="1.4" ScaleY="1.4"/>
+                        </SymbolIcon.RenderTransform>
+                    </SymbolIcon>
+                    <TextBlock FontSize="16" Margin="10">Refresh</TextBlock>
+                </StackPanel>
+            </Button>
+        </Grid>
+        <Grid x:Name="FadeGrid" Background="LightGray" Opacity="0.4" Visibility="{Binding IsRefreshBusy, Converter={StaticResource BoolToVisConverter}}">
+            <ProgressRing Width="100" Height="100" IsActive="True" Foreground="DimGray"/>
         </Grid>
     </Grid>
 

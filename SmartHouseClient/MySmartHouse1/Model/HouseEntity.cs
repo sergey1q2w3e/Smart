@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MySmartHouse1.Common
 {
-    public class HouseEntity : INotifyPropertyChanged
+    public class Notifier : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -18,6 +18,10 @@ namespace MySmartHouse1.Common
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
+    }
+    public class HouseEntity : Notifier
+    {
+        
 
         private int? _humidity;
         private int? _temperature;

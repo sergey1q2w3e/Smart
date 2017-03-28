@@ -17,6 +17,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using MySmartHouse1.Common;
 using System.Net.Http;
+using Windows.UI.Xaml.Input;
 
 #if OFFLINE_SYNC_ENABLED
 using Microsoft.WindowsAzure.MobileServices.SQLiteStore;  // offline sync
@@ -39,7 +40,7 @@ namespace MySmartHouse1
         {
             this.InitializeComponent();
             currentHouseEntity = new ViewHouseEntity();
-            ContentPanel.DataContext = currentHouseEntity;
+            LayoutRoot.DataContext = currentHouseEntity;
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
@@ -48,7 +49,6 @@ namespace MySmartHouse1
             await InitLocalStoreAsync(); // offline sync
 #endif
             ButtonRefresh_Click(this, null);
-
         }
 
         private async Task InsertParameters(Parameters todoItem)
@@ -96,7 +96,6 @@ namespace MySmartHouse1
                 currentHouseEntity.HouseEntity.FanMode = items.FirstOrDefault(i => i.Name == "FanMode").Value;
                 currentHouseEntity.HouseEntity.FanPower = items.FirstOrDefault(i => i.Name == "FanPower").Value;
                 currentHouseEntity.HouseEntity.Door = items.FirstOrDefault(i => i.Name == "Door").Value;
-                //this.ButtonSave.IsEnabled = true;
             }
         }
 
@@ -115,18 +114,19 @@ namespace MySmartHouse1
 
         private async void ButtonRefresh_Click(object sender, RoutedEventArgs e)
         {
-            //ButtonRefresh.IsEnabled = false;
+            currentHouseEntity.IsRefreshBusy = true;
 #if OFFLINE_SYNC_ENABLED
             await SyncAsync(); // offline sync
 #endif
-            imgAnimated.Visibility= Visibility.Visible;
-            imgNotAnimated.Visibility= Visibility.Collapsed;
+            //imgAnimated.Visibility= Visibility.Visible;
+            //imgNotAnimated.Visibility= Visibility.Collapsed;
+
             await RefreshTodoItems();
 
-            ButtonRefresh.IsEnabled = true;
+            currentHouseEntity.IsRefreshBusy = false;
 
-            imgAnimated.Visibility = Visibility.Collapsed;
-            imgNotAnimated.Visibility = Visibility.Visible;
+            //imgAnimated.Visibility = Visibility.Collapsed;
+            //imgNotAnimated.Visibility = Visibility.Visible;
         }
 
         //private async void ButtonSave_Click(object sender, RoutedEventArgs e)
@@ -178,6 +178,8 @@ namespace MySmartHouse1
         {
             var toggle = sender as ToggleSwitch;
             if (toggle == null) return;
+            SetProgressRing(toggle.Name, true);
+            currentHouseEntity.IsParameterBusy++;
             var forUpdate = await parameters.Where(i => i.Name == toggle.Name).ToListAsync();
             if (forUpdate.Count == 0)
             {
@@ -195,6 +197,20 @@ namespace MySmartHouse1
                     item.Value = toggle.IsOn ? 1 : 0;
                     await parameters.UpdateAsync(item);
                 }
+            }
+            SetProgressRing(toggle.Name, false);
+            currentHouseEntity.IsParameterBusy--;
+        }
+
+        private void SetProgressRing(string name, bool value)
+        {
+            if (String.Equals(name, "FanMode"))
+            {
+                ProgressRingMode.IsActive  = value;
+            }
+            else if (String.Equals(name, "FanPower"))
+            {
+                ProgressRingPower.IsActive = value;
             }
         }
     }
