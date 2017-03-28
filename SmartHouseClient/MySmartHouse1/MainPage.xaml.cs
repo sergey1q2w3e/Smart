@@ -93,8 +93,8 @@ namespace MySmartHouse1
                 
                 currentHouseEntity.HouseEntity.Temperature = items.FirstOrDefault(i => i.Name == "Temperature")?.Value;
                 currentHouseEntity.HouseEntity.Humidity = items.FirstOrDefault(i => i.Name == "Humidity")?.Value;
-                currentHouseEntity.HouseEntity.FanMode = items.FirstOrDefault(i => i.Name == "FanMode")?.Value;
-                currentHouseEntity.HouseEntity.FanPower = items.FirstOrDefault(i => i.Name == "FanPower")?.Value;
+                currentHouseEntity.HouseEntity.FanMode = items.FirstOrDefault(i => i.Name == "FanMode").Value;
+                currentHouseEntity.HouseEntity.FanPower = items.FirstOrDefault(i => i.Name == "FanPower").Value;
                 currentHouseEntity.HouseEntity.Door = items.FirstOrDefault(i => i.Name == "Door").Value;
                 //this.ButtonSave.IsEnabled = true;
             }
@@ -167,17 +167,24 @@ namespace MySmartHouse1
 #endif
         #endregion
 
-        private async void ComboFan_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void IncrementParameters(object sender, RoutedEventArgs e)
         {
-            var combo = sender as ComboBox;
-            if (combo == null) return;
-            var forUpdate = await parameters.Where(i => i.Name == combo.Name ).ToListAsync();
+            currentHouseEntity.HouseEntity.Humidity++;
+            currentHouseEntity.HouseEntity.Temperature++;
+            currentHouseEntity.HouseEntity.Door++;
+        }
+
+        private async void ToggleSwitch_Toggled(object sender, RoutedEventArgs e)
+        {
+            var toggle = sender as ToggleSwitch;
+            if (toggle == null) return;
+            var forUpdate = await parameters.Where(i => i.Name == toggle.Name).ToListAsync();
             if (forUpdate.Count == 0)
             {
                 Parameters fanRow = new Parameters
                 {
-                    Name = combo.Name,
-                    Value = combo.SelectedIndex
+                    Name = toggle.Name,
+                    Value = toggle.IsOn ? 1 : 0
                 };
                 await InsertParameters(fanRow);
             }
@@ -185,17 +192,10 @@ namespace MySmartHouse1
             {
                 foreach (var item in forUpdate)
                 {
-                    item.Value = combo.SelectedIndex;
+                    item.Value = toggle.IsOn ? 1 : 0;
                     await parameters.UpdateAsync(item);
                 }
             }
-        }
-
-        private void IncrementParameters(object sender, RoutedEventArgs e)
-        {
-            currentHouseEntity.HouseEntity.Humidity++;
-            currentHouseEntity.HouseEntity.Temperature++;
-            currentHouseEntity.HouseEntity.Door++;
         }
     }
 }

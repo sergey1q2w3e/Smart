@@ -20,4 +20,24 @@ namespace MySmartHouse1
             return null;
         }
     }
+
+    public class ToggleTrueFalseConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter,
+            string culture)
+        {
+            int num = (int) value;
+            if (num == 1) return true;
+            else return false;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter,
+            string culture)
+        {
+            bool val = (bool) value;
+            if (val) return 1;
+            else return 0;
+        }
+
+    }
 }

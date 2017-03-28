@@ -21,8 +21,8 @@ namespace MySmartHouse1.Common
 
         private int? _humidity;
         private int? _temperature;
-        private int? _fanMode;
-        private int? _fanPower;
+        private int _fanMode;
+        private int _fanPower;
         private int _door;
 
         public int? Humidity
@@ -51,7 +51,7 @@ namespace MySmartHouse1.Common
             }
         }
 
-        public int? FanMode
+        public int FanMode
         {
             get { return _fanMode; }
             set
@@ -64,7 +64,7 @@ namespace MySmartHouse1.Common
             }
         }
 
-        public int? FanPower
+        public int FanPower
         {
             get { return _fanPower; }
             set
