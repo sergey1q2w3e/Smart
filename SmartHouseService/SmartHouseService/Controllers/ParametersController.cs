@@ -4,8 +4,6 @@ using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.OData;
 using Microsoft.Azure.Mobile.Server;
-using Microsoft.Azure.Mobile.Server.Config;
-using Microsoft.Azure.NotificationHubs;
 using SmartHouseService.DataObjects;
 using SmartHouseService.Models;
 using SmartHouseService.IoT;

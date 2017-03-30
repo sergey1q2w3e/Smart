@@ -118,15 +118,8 @@ namespace MySmartHouse1
 #if OFFLINE_SYNC_ENABLED
             await SyncAsync(); // offline sync
 #endif
-            //imgAnimated.Visibility= Visibility.Visible;
-            //imgNotAnimated.Visibility= Visibility.Collapsed;
-
             await RefreshTodoItems();
-
             currentHouseEntity.IsRefreshBusy = false;
-
-            //imgAnimated.Visibility = Visibility.Collapsed;
-            //imgNotAnimated.Visibility = Visibility.Visible;
         }
 
         //private async void ButtonSave_Click(object sender, RoutedEventArgs e)
@@ -195,7 +188,14 @@ namespace MySmartHouse1
                 foreach (var item in forUpdate)
                 {
                     item.Value = toggle.IsOn ? 1 : 0;
-                    await parameters.UpdateAsync(item);
+                    try
+                    {
+                        await parameters.UpdateAsync(item);
+                    }
+                    catch (MobileServiceInvalidOperationException ex)
+                    {
+                        
+                    }
                 }
             }
             SetProgressRing(toggle.Name, false);
