@@ -9,6 +9,7 @@
 
 using Microsoft.WindowsAzure.MobileServices;
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.UI.Popups;
@@ -35,6 +36,7 @@ namespace MySmartHouse1
         private IMobileServiceTable<Parameters> parameters = App.MobileService.GetTable<Parameters>();
 #endif
         private ViewHouseEntity currentHouseEntity;
+        private bool _isFirstLaunch = true;
 
         public MainPage()
         {
@@ -68,8 +70,6 @@ namespace MySmartHouse1
             MobileServiceInvalidOperationException exception = null;
             try
             {
-                // This code refreshes the entries in the list view by querying the TodoItems table.
-                // The query excludes completed TodoItems.
                 items = await parameters
                     .ToCollectionAsync();
             }
@@ -120,6 +120,12 @@ namespace MySmartHouse1
 #endif
             await RefreshTodoItems();
             currentHouseEntity.IsRefreshBusy = false;
+            if (_isFirstLaunch)
+            {
+                FanMode.Toggled += ToggleSwitch_Toggled;
+                FanPower.Toggled += ToggleSwitch_Toggled;
+                _isFirstLaunch = false;
+            }
         }
 
         //private async void ButtonSave_Click(object sender, RoutedEventArgs e)
@@ -171,6 +177,7 @@ namespace MySmartHouse1
         {
             var toggle = sender as ToggleSwitch;
             if (toggle == null) return;
+            Debug.WriteLine(String.Format("Called Toggle_switch({0})", toggle.Name));
             SetProgressRing(toggle.Name, true);
             currentHouseEntity.IsParameterBusy++;
             var forUpdate = await parameters.Where(i => i.Name == toggle.Name).ToListAsync();

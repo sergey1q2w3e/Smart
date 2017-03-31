@@ -123,7 +123,7 @@ namespace SmartHouseService.IoT
         {
             using (var contextService = new MobileServiceContext())
             {
-                Parameters paramChange = contextService.Parameters.Where(p => p.Name == name).FirstOrDefault<Parameters>();
+                Parameters paramChange = contextService.Parameters.FirstOrDefault(p => p.Name == name);
                 if (paramChange != null)
                 {
                     paramChange.Value = value;
@@ -165,7 +165,7 @@ namespace SmartHouseService.IoT
                 var result = await hub.SendWindowsNativeNotificationAsync(windowsToastPayload);
                 Debug.WriteLine(result.State);
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
             }
