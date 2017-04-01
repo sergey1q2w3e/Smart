@@ -13,7 +13,7 @@ namespace SmartHouseService
         public void Configuration(IAppBuilder app)
         {
             ConfigureMobileApp(app);
-            //IoTHubManager.StartReceive();
+            IoTHubManager.StartReceive();
         }
 
         //private static int h = 20;
