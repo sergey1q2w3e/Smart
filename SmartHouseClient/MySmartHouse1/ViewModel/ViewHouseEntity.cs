@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MySmartHouse1.Model;
 
-namespace MySmartHouse1.Common
+namespace MySmartHouse1
 {
     public class ViewHouseEntity : Notifier
     {

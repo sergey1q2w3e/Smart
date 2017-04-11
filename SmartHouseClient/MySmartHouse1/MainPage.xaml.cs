@@ -16,9 +16,7 @@ using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-using MySmartHouse1.Common;
 using System.Net.Http;
-using Windows.UI.Xaml.Input;
 
 #if OFFLINE_SYNC_ENABLED
 using Microsoft.WindowsAzure.MobileServices.SQLiteStore;  // offline sync

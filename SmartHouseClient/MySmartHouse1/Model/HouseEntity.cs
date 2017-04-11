@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 
-namespace MySmartHouse1.Common
+namespace MySmartHouse1.Model
 {
     public class Notifier : INotifyPropertyChanged
     {
@@ -21,8 +16,6 @@ namespace MySmartHouse1.Common
     }
     public class HouseEntity : Notifier
     {
-        
-
         private int? _humidity;
         private int? _temperature;
         private int _fanMode;
