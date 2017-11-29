@@ -24,10 +24,14 @@ namespace SmartHouseService.IoT
         //private static string notifHubConnectionStr = "Endpoint=sb://myhubnamespace.servicebus.windows.net/;SharedAccessKeyName=DefaultFullSharedAccessSignature;SharedAccessKey=voDbGB7f0c99MG1t+wvRZEMruKapTmrywNB7r05mMss=";
         //private static string notificationHubName = "myhub";
         private ServiceClient _serviceClient;
+        private int alarmCount;
+        private bool isNeedAlarm;
 
         private IoTHubManager(bool startReceiver)
         {
             if(startReceiver) StartReceive();
+            alarmCount = 0;
+            isNeedAlarm = false;
         }
 
         public static IoTHubManager GetInstance(bool startReceiver)
@@ -115,10 +119,17 @@ namespace SmartHouseService.IoT
                             int d = int.Parse(parameter[1]);
                             if (d < 0)
                             {
-                                Alarm();
+                                isNeedAlarm = ++alarmCount < 3;      //уведовление придет 3 раза подряд (не больше)
+                                if(isNeedAlarm) Alarm();
                             }
-                            else
+                            if (d == 0)
                             {
+                                SaveParameter("Door", d);
+                            }
+                            if (d > 0)
+                            {
+                                isNeedAlarm = false;
+                                alarmCount = 0;
                                 SaveParameter("Door", d);
                             }
                             break;
