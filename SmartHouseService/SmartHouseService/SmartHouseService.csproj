@@ -248,11 +248,8 @@
   <ItemGroup>
     <Compile Include="App_Start\Startup.MobileApp.cs" />
     <Compile Include="Controllers\ParametersController.cs" />
-    <Compile Include="Controllers\StatisticTController.cs" />
     <Compile Include="DataObjects\Parameters.cs" />
-    <Compile Include="DataObjects\StatisticT.cs" />
     <Compile Include="IoT\IoTHubManager.cs" />
-    <Compile Include="IoT\StatisticManager.cs" />
     <Compile Include="Models\MobileServiceContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
