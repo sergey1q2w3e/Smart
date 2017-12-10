@@ -16,141 +16,94 @@
     <Grid x:Name="LayoutRoot" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <ScrollViewer VerticalScrollMode="Auto" VerticalScrollBarVisibility="Auto">
             <Grid x:Name="ContentGrid" Padding="0,0,0,50">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
 
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-
-            <!--TitleGrid contains the name of the application and page title-->
-            <Grid x:Name="TitleGrid" Grid.Row="0" Grid.ColumnSpan="2" Margin="10,15,10,16">
-                <StackPanel>
-                    <TextBlock Foreground="#0094ff" FontFamily="Segoe UI Light" Margin="6,0,0,6" FontSize="20">SMART HOUSE</TextBlock>
-                    <!--<TextBlock x:Name="TitleTextBlock" Foreground="Gray" FontFamily="Segoe UI Light" FontSize="20" >Try Mobile Apps</TextBlock>-->
-                </StackPanel>
-            </Grid>
-
-            <!--ContentPanel - place additional content here-->
-            <Grid x:Name="ContentPanel" Grid.Row="1">
-
+                </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <Grid Grid.Row="0" Background="Gainsboro">
-                    <TextBlock Foreground="Gray" FontFamily="Segoe UI Light" FontSize="20" HorizontalAlignment="Center"  >Bathroom</TextBlock>
-                </Grid>
-                <StackPanel Grid.Row="1">
-                    <Grid Margin="10,0,10,10">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="3*"/>
-                            <ColumnDefinition Width="2*"/>
-                        </Grid.ColumnDefinitions>
 
-                        <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Margin="0,10,10,10" FontSize="18">Temperature:</TextBlock>
-                        <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Margin="0,10,10,10" FontSize="18">Humidity:</TextBlock>
-                        <RelativePanel Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center">
-                            <TextBlock  Name="txtTemperature" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,10,10,10" FontSize="24" FontWeight="Bold" Text="{Binding Path=HouseEntity.Temperature}"> °C</TextBlock>
-                            <TextBlock RelativePanel.RightOf="txtTemperature" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,10,10,10" FontSize="24" FontWeight="Bold"> °C</TextBlock>
-                        </RelativePanel>
-                        <RelativePanel Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center">
-                            <TextBlock Name="txtHumidity" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,10,10,10" FontSize="24" FontWeight="Bold" Text="{Binding Path=HouseEntity.Humidity}"></TextBlock>
-                            <TextBlock RelativePanel.RightOf="txtHumidity" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,10,10,10" FontSize="24" FontWeight="Bold"> %</TextBlock>
-                        </RelativePanel>
+                <!--TitleGrid contains the name of the application and page title-->
+                <Grid x:Name="TitleGrid" Grid.Row="0" Grid.ColumnSpan="2" Margin="10,15,10,16">
+                    <StackPanel>
+                        <TextBlock Foreground="#0094ff" FontFamily="Segoe UI Light" Margin="6,0,0,6" FontSize="20">SMART HOUSE</TextBlock>
+                        <!--<TextBlock x:Name="TitleTextBlock" Foreground="Gray" FontFamily="Segoe UI Light" FontSize="20" >Try Mobile Apps</TextBlock>-->
+                    </StackPanel>
+                </Grid>
+
+                <!--ContentPanel - place additional content here-->
+                <Grid x:Name="ContentPanel" Grid.Row="1">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0" Background="Gainsboro">
+                        <TextBlock Foreground="Gray" FontFamily="Segoe UI Light" FontSize="20" HorizontalAlignment="Center"  >Ванная комната</TextBlock>
                     </Grid>
-                    <Border Background="Gainsboro" Height="3"/>
-                    <StackPanel Orientation="Vertical" Margin="10,0,10,10">
-                        <StackPanel Orientation="Horizontal">
-                            <ToggleSwitch x:Name="FanPower" IsOn="{Binding HouseEntity.FanPower, Mode=TwoWay, Converter={StaticResource TrueFalseConverter}}" Header="Fan Power" FontSize="18"/>
-                            <ProgressRing x:Name="ProgressRingPower"></ProgressRing>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <ToggleSwitch x:Name="FanMode" IsOn="{Binding HouseEntity.FanMode, Mode=TwoWay, Converter={StaticResource TrueFalseConverter}}" Header="Fan Mode" FontSize="18" OffContent="Auto" OnContent="Manual" Width="91"/>
-                            <ProgressRing x:Name="ProgressRingMode"></ProgressRing>
+                    <StackPanel Grid.Row="1">
+                        <Grid Margin="10,0,10,10">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="3*"/>
+                                <ColumnDefinition Width="2*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Margin="0,10,10,10" FontSize="18">Температура:</TextBlock>
+                            <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Margin="0,10,10,10" FontSize="18">Влажность:</TextBlock>
+                            <RelativePanel Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center">
+                                <TextBlock  Name="txtTemperature" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,10,10,10" FontSize="24" FontWeight="Bold" Text="{Binding Path=HouseEntity.Temperature}"> °C</TextBlock>
+                                <TextBlock RelativePanel.RightOf="txtTemperature" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,10,10,10" FontSize="24" FontWeight="Bold"> °C</TextBlock>
+                            </RelativePanel>
+                            <RelativePanel Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center">
+                                <TextBlock Name="txtHumidity" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,10,10,10" FontSize="24" FontWeight="Bold" Text="{Binding Path=HouseEntity.Humidity}"></TextBlock>
+                                <TextBlock RelativePanel.RightOf="txtHumidity" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,10,10,10" FontSize="24" FontWeight="Bold"> %</TextBlock>
+                            </RelativePanel>
+                        </Grid>
+                        <Border Background="Gainsboro" Height="3"/>
+                        <Grid Margin="0,10,0,0" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="2*"/>
+                            </Grid.ColumnDefinitions>
+                            <Image Grid.Column="0" Source="Assets/cooler.png" MaxWidth="100" MaxHeight="100" Stretch="UniformToFill" VerticalAlignment="Center" Margin="0,0,10,0" />
+                            <ToggleSwitch Grid.Column="1" x:Name="FanPower" IsOn="{Binding HouseEntity.FanPower, Mode=TwoWay, Converter={StaticResource TrueFalseConverter}}" FontSize="18" Header="Включить" HorizontalContentAlignment="Center" HorizontalAlignment="Stretch" OffContent="" OnContent="" VerticalAlignment="Center"/>
+                            <ProgressRing Grid.Column="1" x:Name="ProgressRingPower" Canvas.ZIndex="1"></ProgressRing>
+                            <ToggleSwitch Grid.Column="2" x:Name="FanMode" IsOn="{Binding HouseEntity.FanMode, Mode=TwoWay, Converter={StaticResource TrueFalseConverter}}" FontSize="18" Header="Откл. авто" OffContent="" OnContent="" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
+                            <ProgressRing Grid.Column="2" x:Name="ProgressRingMode"></ProgressRing>
+
+                        </Grid>
+                        <StackPanel Orientation="Vertical" Margin="10,0,10,10">
+
+
                         </StackPanel>
                     </StackPanel>
-                </StackPanel>
-                <Grid Grid.Row="2" Background="Gainsboro">
-                    <TextBlock Foreground="Gray" FontFamily="Segoe UI Light" FontSize="20" HorizontalAlignment="Center"  >Door</TextBlock>
-                </Grid>
-                <Grid Grid.Row="3">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Margin="0,10,10,10" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18">Door Lock</TextBlock>
-                    <Image Grid.Column="1" Source="{Binding HouseEntity.Door, Converter={StaticResource ImgConverter}}" RenderTransformOrigin="0.5,0.5" >
-                        <Image.RenderTransform>
-                            <CompositeTransform ScaleY="0.5" ScaleX="0.5"/>
-                        </Image.RenderTransform>
-                    </Image>
+                    <Grid Grid.Row="2" Background="Gainsboro">
+                        <TextBlock Foreground="Gray" FontFamily="Segoe UI Light" FontSize="20" HorizontalAlignment="Center"  >Входная дверь</TextBlock>
+                    </Grid>
+                    <Grid Grid.Row="3">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Image Grid.Row="0" HorizontalAlignment="Center" Source="{Binding HouseEntity.Door, Converter={StaticResource ImgConverter}}" RenderTransformOrigin="0.5,0.5" >
+                            <Image.RenderTransform>
+                                <CompositeTransform ScaleY="0.5" ScaleX="0.5"/>
+                            </Image.RenderTransform>
+                        </Image>
+                        <Border Grid.Row="1" Background="Gainsboro" Height="3"/>
+                    </Grid>
                 </Grid>
             </Grid>
-
-            <Grid x:Name="ItemsGrid" Grid.Row="2" >
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="500"/>
-                </Grid.RowDefinitions>
-
-                <RelativePanel Grid.Row="0" Grid.ColumnSpan="2" Margin="0,0,10,0">
-
-                    <!--<Button x:Name="ButtonRefresh" Click="ButtonRefresh_Click" Margin="72,10,0,0" Height="80" Width="180"
-                              HorizontalAlignment="Center">
-
-                        <StackPanel Orientation="Horizontal">
-                            <SymbolIcon x:Name="imgNotAnimated"  Symbol="Refresh"/>
-                            <SymbolIcon Name="imgAnimated" Visibility="Collapsed" Symbol="Refresh" RenderTransformOrigin="0.5,0.5">
-                                <SymbolIcon.RenderTransform>
-                                    <RotateTransform x:Name="RotateTransformArrow" Angle="0"></RotateTransform>
-                                </SymbolIcon.RenderTransform>
-                                <SymbolIcon.Triggers>
-                                    <EventTrigger>
-                                        <EventTrigger.Actions>
-                                            <BeginStoryboard>
-                                                <Storyboard>
-                                                    <DoubleAnimation Storyboard.TargetName="RotateTransformArrow"
-                                                                         Storyboard.TargetProperty="Angle" To="360" Duration="0:0:1"
-                                                                         RepeatBehavior="Forever"/>
-                                                </Storyboard>
-                                            </BeginStoryboard>
-                                        </EventTrigger.Actions>
-                                    </EventTrigger>
-                                </SymbolIcon.Triggers>
-                            </SymbolIcon>
-                            <TextBlock Margin="5">Refresh</TextBlock>
-                        </StackPanel>
-                    </Button>-->
-                    <Button Width="100" Height="40" Content="++" Margin="10" Click="IncrementParameters"/>
-                </RelativePanel>
-
-                <ScrollViewer Grid.Row="1" Margin="0,10,0,0" 
-                              VerticalScrollBarVisibility="Visible" VerticalScrollMode="Auto"
-                              HorizontalAlignment="Stretch">
-                    <ListView x:Name="ListItems">
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel>
-                                    <TextBlock  Text="{Binding Name}" MaxWidth="550" HorizontalAlignment="Left" TextWrapping="WrapWholeWords"/>
-                                    <TextBlock  Text="{Binding Value}" MaxWidth="550" TextWrapping="WrapWholeWords"/>
-                                </StackPanel>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-                </ScrollViewer>
-            </Grid>
-        </Grid>
         </ScrollViewer>
         <Grid>
             <Button x:Name="RefreshButton" IsEnabled="{Binding IsParameterBusy, Converter={StaticResource BusyConvertor}}" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Canvas.ZIndex="1" Height="50" BorderThickness="0,0,0.6,0" Click="ButtonRefresh_Click">
@@ -160,7 +113,7 @@
                             <CompositeTransform ScaleX="1.4" ScaleY="1.4"/>
                         </SymbolIcon.RenderTransform>
                     </SymbolIcon>
-                    <TextBlock FontSize="16" Margin="10">Refresh</TextBlock>
+                    <TextBlock FontSize="16" Margin="10">Обновить</TextBlock>
                 </StackPanel>
             </Button>
         </Grid>

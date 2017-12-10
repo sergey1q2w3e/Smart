@@ -119,7 +119,7 @@ namespace SmartHouseService.IoT
                             int d = int.Parse(parameter[1]);
                             if (d < 0)
                             {
-                                isNeedAlarm = ++alarmCount < 3;      //уведовление придет 3 раза подряд (не больше)
+                                isNeedAlarm = ++alarmCount <= 3;      //уведовление придет 3 раза подряд (не больше)
                                 if(isNeedAlarm) Alarm();
                             }
                             if (d == 0)
@@ -132,6 +132,14 @@ namespace SmartHouseService.IoT
                                 alarmCount = 0;
                                 SaveParameter("Door", d);
                             }
+                            break;
+                        case "M":
+                            int m = int.Parse(parameter[1], CultureInfo.InvariantCulture);
+                            SaveParameter("FanMode", m);
+                            break;
+                        case "P":
+                            int p = int.Parse(parameter[1], CultureInfo.InvariantCulture);
+                            SaveParameter("FanPower", p);
                             break;
                     }
                 }

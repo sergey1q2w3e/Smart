@@ -34,7 +34,6 @@ namespace MySmartHouse1
         private IMobileServiceTable<Parameters> parameters = App.MobileService.GetTable<Parameters>();
 #endif
         private ViewHouseEntity currentHouseEntity;
-        private bool _isFirstLaunch = true;
 
         public MainPage()
         {
@@ -87,8 +86,6 @@ namespace MySmartHouse1
             }
             else
             {
-                ListItems.ItemsSource = items;
-                
                 currentHouseEntity.HouseEntity.Temperature = items.FirstOrDefault(i => i.Name == "Temperature")?.Value;
                 currentHouseEntity.HouseEntity.Humidity = items.FirstOrDefault(i => i.Name == "Humidity")?.Value;
                 currentHouseEntity.HouseEntity.FanMode = items.FirstOrDefault(i => i.Name == "FanMode").Value;
@@ -100,10 +97,10 @@ namespace MySmartHouse1
         private async Task UpdateCheckedTodoItem(Parameters item)
         {
             // This code takes a freshly completed TodoItem and updates the database.
-			// After the MobileService client responds, the item is removed from the list.
+            // After the MobileService client responds, the item is removed from the list.
             await parameters.UpdateAsync(item);
             items.Remove(item);
-            ListItems.Focus(Windows.UI.Xaml.FocusState.Unfocused);
+            //ListItems.Focus(Windows.UI.Xaml.FocusState.Unfocused);
 
 #if OFFLINE_SYNC_ENABLED
             await App.MobileService.SyncContext.PushAsync(); // offline sync
@@ -116,32 +113,13 @@ namespace MySmartHouse1
 #if OFFLINE_SYNC_ENABLED
             await SyncAsync(); // offline sync
 #endif
+            FanMode.Toggled -= ToggleSwitch_Toggled;
+            FanPower.Toggled -= ToggleSwitch_Toggled;
             await RefreshTodoItems();
             currentHouseEntity.IsRefreshBusy = false;
-            if (_isFirstLaunch)
-            {
-                FanMode.Toggled += ToggleSwitch_Toggled;
-                FanPower.Toggled += ToggleSwitch_Toggled;
-                _isFirstLaunch = false;
-            }
+            FanMode.Toggled += ToggleSwitch_Toggled;
+            FanPower.Toggled += ToggleSwitch_Toggled;
         }
-
-        //private async void ButtonSave_Click(object sender, RoutedEventArgs e)
-        //{
-        //    var todoItem = new Parameters { Name = NameInput.Text, Value = Int32.Parse(ValueInput.Text)};
-        //    ValueInput.Text = "";
-        //    NameInput.Text = "";
-        //    await InsertParameters(todoItem);
-        //}
-
-
-        //private void TextInput_KeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
-        //{
-        //    if (e.Key == Windows.System.VirtualKey.Enter) {
-        //        ButtonSave.Focus(FocusState.Programmatic);
-        //    }
-        //}
-
         #region Offline sync
 #if OFFLINE_SYNC_ENABLED
         private async Task InitLocalStoreAsync()
@@ -164,12 +142,6 @@ namespace MySmartHouse1
 #endif
         #endregion
 
-        private void IncrementParameters(object sender, RoutedEventArgs e)
-        {
-            currentHouseEntity.HouseEntity.Humidity++;
-            currentHouseEntity.HouseEntity.Temperature++;
-            currentHouseEntity.HouseEntity.Door++;
-        }
 
         private async void ToggleSwitch_Toggled(object sender, RoutedEventArgs e)
         {
@@ -197,7 +169,7 @@ namespace MySmartHouse1
                     {
                         await parameters.UpdateAsync(item);
                     }
-                    catch (MobileServiceInvalidOperationException ex)
+                    catch (MobileServiceInvalidOperationException)
                     {
                         
                     }
