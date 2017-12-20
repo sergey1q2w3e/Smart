@@ -5,6 +5,7 @@
     xmlns:local="using:MySmartHouse1"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:oxy="using:OxyPlot.Windows"
     mc:Ignorable="d">
 
     <Page.Resources>
@@ -13,6 +14,9 @@
         <local:BooleanToVisibilityConverter x:Key="BoolToVisConverter"></local:BooleanToVisibilityConverter>
         <local:IsParameterBusyConvertor x:Key="BusyConvertor"></local:IsParameterBusyConvertor>
     </Page.Resources>
+    <Page.DataContext>
+        <local:ViewHouseEntity/>
+    </Page.DataContext>
     <Grid x:Name="LayoutRoot" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <ScrollViewer VerticalScrollMode="Auto" VerticalScrollBarVisibility="Auto">
             <Grid x:Name="ContentGrid" Padding="0,0,0,50">
@@ -39,6 +43,7 @@
 
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
@@ -91,6 +96,9 @@
                         <TextBlock Foreground="Gray" FontFamily="Segoe UI Light" FontSize="20" HorizontalAlignment="Center"  >Входная дверь</TextBlock>
                     </Grid>
                     <Grid Grid.Row="3">
+                        <oxy:PlotView Model="{Binding StatPlotModel}"></oxy:PlotView>
+                    </Grid>
+                    <Grid Grid.Row="4">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="*"/>
@@ -102,6 +110,7 @@
                         </Image>
                         <Border Grid.Row="1" Background="Gainsboro" Height="3"/>
                     </Grid>
+                    
                 </Grid>
             </Grid>
         </ScrollViewer>
