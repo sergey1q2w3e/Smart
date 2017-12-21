@@ -72,7 +72,7 @@ namespace MySmartHouse1
             try
             {
                 items = await parameters.ToCollectionAsync();
-                //stats = await statistics.ToCollectionAsync();
+                stats = await statistics.ToCollectionAsync();
             }
             catch (MobileServiceInvalidOperationException e)
             {
@@ -107,8 +107,8 @@ namespace MySmartHouse1
                     new StatisticsHT() {ValueDateTime = new DateTime(2017,12,20,12,12,0), Humidity = 77, Temperature = 26},
                     new StatisticsHT() {ValueDateTime = new DateTime(2017,12,20,12,14,0), Humidity = 64, Temperature = 24}
                 };
-                //currentHouseEntity.Statistics = stats.ToList();
-                currentHouseEntity.Statistics = list;
+                currentHouseEntity.Statistics = stats.ToList();
+                //currentHouseEntity.Statistics = list;
             }
         }
 

@@ -12,7 +12,7 @@ namespace MySmartHouse1
     public class ViewHouseEntity : Notifier
     {
         public HouseEntity HouseEntity { get; set; }
-        public PlotModel StatPlotModel { get; }
+        public PlotModel StatPlotModel { get; private set; }
 
         private List<StatisticsHT> _statistics;
         private int _isParameterBusy;
@@ -26,7 +26,7 @@ namespace MySmartHouse1
                 if (!_statistics.Equals(value))
                 {
                     _statistics = value;
-                   // FillPlotData();
+                    FillPlotData();
                     OnPropertyChanged("Statistics");
                 }
             }
@@ -63,10 +63,10 @@ namespace MySmartHouse1
             StatPlotModel = new PlotModel
             {
                 Title = "Статистика",
-                //Axes = {new DateTimeAxis {Position = AxisPosition.Bottom, StringFormat = "dd.MM.yyyy HH:mm"}}
+                Axes = {new DateTimeAxis {Position = AxisPosition.Bottom, StringFormat = "dd.MM.yyyy HH:mm"}}
                 
             };
-            StatPlotModel.Series.Add(new FunctionSeries(Math.Cos, 0, 10, 0.1, "cos(x)"));
+            //StatPlotModel.Series.Add(new FunctionSeries(Math.Cos, 0, 10, 0.1, "cos(x)"));
         }
 
         private void FillPlotData()
@@ -97,7 +97,7 @@ namespace MySmartHouse1
                     StatPlotModel.Series.Clear();
                 StatPlotModel.Series.Add(lineT);
                 StatPlotModel.Series.Add(lineH);
-                //StatPlotModel.InvalidatePlot(true);
+                StatPlotModel.InvalidatePlot(true);
             }
         }
     }

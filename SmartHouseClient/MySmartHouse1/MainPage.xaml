@@ -14,9 +14,6 @@
         <local:BooleanToVisibilityConverter x:Key="BoolToVisConverter"></local:BooleanToVisibilityConverter>
         <local:IsParameterBusyConvertor x:Key="BusyConvertor"></local:IsParameterBusyConvertor>
     </Page.Resources>
-    <Page.DataContext>
-        <local:ViewHouseEntity/>
-    </Page.DataContext>
     <Grid x:Name="LayoutRoot" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <ScrollViewer VerticalScrollMode="Auto" VerticalScrollBarVisibility="Auto">
             <Grid x:Name="ContentGrid" Padding="0,0,0,50">
@@ -27,7 +24,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
                 <!--TitleGrid contains the name of the application and page title-->
@@ -43,6 +40,7 @@
 
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
@@ -95,9 +93,7 @@
                     <Grid Grid.Row="2" Background="Gainsboro">
                         <TextBlock Foreground="Gray" FontFamily="Segoe UI Light" FontSize="20" HorizontalAlignment="Center"  >Входная дверь</TextBlock>
                     </Grid>
-                    <Grid Grid.Row="3">
-                        <oxy:PlotView Model="{Binding StatPlotModel}"></oxy:PlotView>
-                    </Grid>
+
                     <Grid Grid.Row="4">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>
@@ -112,7 +108,9 @@
                     </Grid>
                     
                 </Grid>
+                <oxy:PlotView Grid.Row="2" Model="{Binding StatPlotModel}" Height="300" ></oxy:PlotView>
             </Grid>
+
         </ScrollViewer>
         <Grid>
             <Button x:Name="RefreshButton" IsEnabled="{Binding IsParameterBusy, Converter={StaticResource BusyConvertor}}" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Canvas.ZIndex="1" Height="50" BorderThickness="0,0,0.6,0" Click="ButtonRefresh_Click">
