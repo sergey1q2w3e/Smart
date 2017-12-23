@@ -249,7 +249,7 @@
   <ItemGroup>
     <Compile Include="App_Start\Startup.MobileApp.cs" />
     <Compile Include="Controllers\ParametersController.cs" />
-    <Compile Include="Controllers\StatisticsHTController.cs" />
+    <Compile Include="Controllers\StatisticsHTsController.cs" />
     <Compile Include="DataObjects\Parameters.cs" />
     <Compile Include="DataObjects\StatisticsHT.cs" />
     <Compile Include="IoT\IoTHubManager.cs" />

@@ -33,8 +33,7 @@ namespace SmartHouseService.Models
         }
 
         public System.Data.Entity.DbSet<SmartHouseService.DataObjects.Parameters> Parameters { get; set; }
-        public System.Data.Entity.DbSet<SmartHouseService.DataObjects.StatisticsHT> StatisticsHT { get; set; }
 
-        public System.Data.Entity.DbSet<SmartHouseService.DataObjects.StatisticsHT> StatisticsHTs { get; set; }
+        public System.Data.Entity.DbSet<SmartHouseService.DataObjects.StatisticsHTs> StatisticsHTs { get; set; }
     }
 }

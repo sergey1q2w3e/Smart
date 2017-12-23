@@ -14,11 +14,11 @@ namespace MySmartHouse1
         public HouseEntity HouseEntity { get; set; }
         public PlotModel StatPlotModel { get; private set; }
 
-        private List<StatisticsHT> _statistics;
+        private List<StatisticsHTs> _statistics;
         private int _isParameterBusy;
         private bool _isRefreshBusy;
 
-        public List<StatisticsHT> Statistics
+        public List<StatisticsHTs> Statistics
         {
             get { return _statistics; }
             set
@@ -59,11 +59,11 @@ namespace MySmartHouse1
         public ViewHouseEntity()
         {
             HouseEntity = new HouseEntity();
-            _statistics = new List<StatisticsHT>();
+            _statistics = new List<StatisticsHTs>();
             StatPlotModel = new PlotModel
             {
                 Title = "Статистика",
-                Axes = {new DateTimeAxis {Position = AxisPosition.Bottom, StringFormat = "dd.MM.yyyy HH:mm"}}
+                Axes = {new DateTimeAxis {Position = AxisPosition.Bottom, StringFormat = "HH:mm"}}
                 
             };
             //StatPlotModel.Series.Add(new FunctionSeries(Math.Cos, 0, 10, 0.1, "cos(x)"));
@@ -73,8 +73,8 @@ namespace MySmartHouse1
         {
             if (_statistics != null && _statistics.Any())
             {
-                StatPlotModel.Axes[0].Minimum = DateTimeAxis.ToDouble(_statistics[0].ValueDateTime);
-                StatPlotModel.Axes[0].Maximum = DateTimeAxis.ToDouble(_statistics[_statistics.Count - 1].ValueDateTime);
+                //StatPlotModel.Axes[0].Minimum = DateTimeAxis.ToDouble(_statistics[0].ValueDateTime);
+                //StatPlotModel.Axes[0].Maximum = DateTimeAxis.ToDouble(_statistics[_statistics.Count - 1].ValueDateTime);
                 LineSeries lineH = new LineSeries()
                 {
                     Color = OxyColors.Blue,

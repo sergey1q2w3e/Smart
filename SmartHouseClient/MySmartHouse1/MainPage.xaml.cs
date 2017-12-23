@@ -30,12 +30,12 @@ namespace MySmartHouse1
     public sealed partial class MainPage : Page
     {
         private MobileServiceCollection<Parameters, Parameters> items;
-        private MobileServiceCollection<StatisticsHT, StatisticsHT> stats; 
+        private MobileServiceCollection<StatisticsHTs, StatisticsHTs> stats; 
 #if OFFLINE_SYNC_ENABLED
         private IMobileServiceSyncTable<TodoItem> todoTable = App.MobileService.GetSyncTable<TodoItem>(); // offline sync
 #else
         private IMobileServiceTable<Parameters> parameters = App.MobileService.GetTable<Parameters>();
-        private IMobileServiceTable<StatisticsHT> statistics = App.MobileService.GetTable<StatisticsHT>();  
+        private IMobileServiceTable<StatisticsHTs> statistics = App.MobileService.GetTable<StatisticsHTs>();  
 #endif
         private ViewHouseEntity currentHouseEntity;
 
@@ -96,16 +96,16 @@ namespace MySmartHouse1
                 currentHouseEntity.HouseEntity.FanPower = items.FirstOrDefault(i => i.Name == "FanPower").Value;
                 currentHouseEntity.HouseEntity.Door = items.FirstOrDefault(i => i.Name == "Door").Value;
 
-                List<StatisticsHT> list = new List<StatisticsHT>()
+                List<StatisticsHTs> list = new List<StatisticsHTs>()
                 {
-                    new StatisticsHT() {ValueDateTime = new DateTime(2017,12,20,12,0,0), Humidity = 80, Temperature = 24},
-                    new StatisticsHT() {ValueDateTime = new DateTime(2017,12,20,12,2,0), Humidity = 82, Temperature = 24},
-                    new StatisticsHT() {ValueDateTime = new DateTime(2017,12,20,12,4,0), Humidity = 90, Temperature = 25},
-                    new StatisticsHT() {ValueDateTime = new DateTime(2017,12,20,12,6,0), Humidity = 99, Temperature = 25},
-                    new StatisticsHT() {ValueDateTime = new DateTime(2017,12,20,12,8,0), Humidity = 99, Temperature = 25},
-                    new StatisticsHT() {ValueDateTime = new DateTime(2017,12,20,12,10,0), Humidity = 91, Temperature = 26},
-                    new StatisticsHT() {ValueDateTime = new DateTime(2017,12,20,12,12,0), Humidity = 77, Temperature = 26},
-                    new StatisticsHT() {ValueDateTime = new DateTime(2017,12,20,12,14,0), Humidity = 64, Temperature = 24}
+                    new StatisticsHTs() {ValueDateTime = new DateTime(2017,12,20,12,0,0), Humidity = 80, Temperature = 24},
+                    new StatisticsHTs() {ValueDateTime = new DateTime(2017,12,20,12,2,0), Humidity = 82, Temperature = 24},
+                    new StatisticsHTs() {ValueDateTime = new DateTime(2017,12,20,12,4,0), Humidity = 90, Temperature = 25},
+                    new StatisticsHTs() {ValueDateTime = new DateTime(2017,12,20,12,6,0), Humidity = 99, Temperature = 25},
+                    new StatisticsHTs() {ValueDateTime = new DateTime(2017,12,20,12,8,0), Humidity = 99, Temperature = 25},
+                    new StatisticsHTs() {ValueDateTime = new DateTime(2017,12,20,12,10,0), Humidity = 91, Temperature = 26},
+                    new StatisticsHTs() {ValueDateTime = new DateTime(2017,12,20,12,12,0), Humidity = 77, Temperature = 26},
+                    new StatisticsHTs() {ValueDateTime = new DateTime(2017,12,20,12,14,0), Humidity = 64, Temperature = 24}
                 };
                 currentHouseEntity.Statistics = stats.ToList();
                 //currentHouseEntity.Statistics = list;
