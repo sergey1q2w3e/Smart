@@ -64,28 +64,27 @@ namespace MySmartHouse1
             {
                 Title = "Статистика",
                 Axes = {new DateTimeAxis {Position = AxisPosition.Bottom, StringFormat = "HH:mm"}}
-                
             };
-            //StatPlotModel.Series.Add(new FunctionSeries(Math.Cos, 0, 10, 0.1, "cos(x)"));
         }
 
         private void FillPlotData()
         {
             if (_statistics != null && _statistics.Any())
             {
-                //StatPlotModel.Axes[0].Minimum = DateTimeAxis.ToDouble(_statistics[0].ValueDateTime);
-                //StatPlotModel.Axes[0].Maximum = DateTimeAxis.ToDouble(_statistics[_statistics.Count - 1].ValueDateTime);
                 LineSeries lineH = new LineSeries()
                 {
                     Color = OxyColors.Blue,
                     LineJoin = LineJoin.Round,
-                    Title = "Влажность"
+                    Title = "Влажность",
+                    TrackerFormatString = "{0}\nВремя: {2:HH:mm}\nЗначение: {4:f2}"
+                    
                 };
                 LineSeries lineT = new LineSeries()
                 {
                     Color = OxyColors.Red,
                     LineJoin = LineJoin.Round,
-                    Title = "Температура"
+                    Title = "Температура",
+                    TrackerFormatString = "{0}\nВремя: {2:HH:mm}\nЗначение: {4:f2}"
                 };
 
                 foreach (var stat in _statistics)
